@@ -33,6 +33,20 @@ node scripts/check-provenance.js
 ```
 
 This creates `target/wasm32-unknown-unknown/release/earn_quest.wasm.provenance.json` alongside the built artifact.
+
+To build a release package with checksum metadata, run:
+
+```bash
+node scripts/package-release.js
+```
+
+That command creates a `release/` directory containing:
+
+- `earn_quest.wasm`
+- `earn_quest.wasm.provenance.json`
+- `earn_quest.wasm.sha256`
+- `earn_quest.wasm.metadata.json`
+
 ### Development Setup (Git Hooks)
 
 After cloning, install the pre-commit hooks so `cargo fmt`, `clippy`, and fast unit
