@@ -35,7 +35,7 @@ export const DEFAULT_SLO_THRESHOLDS: SLOThresholds = {
   testFlakeRate: {
     target: 0.02, // 2% flake rate target
     warning: 0.05, // 5% warning
-    critical: 0.10, // 10% critical
+    critical: 0.1, // 10% critical
   },
 };
 

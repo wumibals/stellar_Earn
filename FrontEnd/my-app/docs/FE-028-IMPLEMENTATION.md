@@ -11,6 +11,7 @@ This document describes the implementation of a resilient error boundary system 
 A React Error Boundary component specifically designed for handling API bootstrap failures in widgets.
 
 #### Key Features:
+
 - ✅ Catches render errors and async errors
 - ✅ Automatic retry tracking
 - ✅ User-friendly error UI with recovery actions
@@ -40,20 +41,21 @@ function MyWidget() {
 
 #### Props:
 
-| Prop | Type | Required | Description |
-|------|------|----------|-------------|
-| `children` | `React.ReactNode` | ✅ | Component content to wrap |
-| `componentName` | `string` | ✅ | Name for error reporting and UI |
-| `fallback` | `React.ComponentType` | ❌ | Custom error fallback component |
-| `onError` | `(error: Error, name: string) => void` | ❌ | Error callback for logging/tracking |
-| `retryable` | `boolean` | ❌ | Whether errors are retryable (default: true) |
-| `showDetails` | `boolean` | ❌ | Show error details in dev mode (default: false) |
+| Prop            | Type                                   | Required | Description                                     |
+| --------------- | -------------------------------------- | -------- | ----------------------------------------------- |
+| `children`      | `React.ReactNode`                      | ✅       | Component content to wrap                       |
+| `componentName` | `string`                               | ✅       | Name for error reporting and UI                 |
+| `fallback`      | `React.ComponentType`                  | ❌       | Custom error fallback component                 |
+| `onError`       | `(error: Error, name: string) => void` | ❌       | Error callback for logging/tracking             |
+| `retryable`     | `boolean`                              | ❌       | Whether errors are retryable (default: true)    |
+| `showDetails`   | `boolean`                              | ❌       | Show error details in dev mode (default: false) |
 
 ### 2. **useAPIBootstrap Hook**
 
 A custom React hook for managing API data fetching with automatic retry logic and error handling.
 
 #### Key Features:
+
 - ✅ Automatic retry with exponential backoff
 - ✅ Loading state management
 - ✅ Error tracking and monitoring
@@ -106,6 +108,7 @@ function MyComponent() {
 Specialized error fallback UI for API bootstrap failures with smart error detection and recovery suggestions.
 
 #### Features:
+
 - ✅ Network error detection
 - ✅ Timeout error detection
 - ✅ Context-specific icons and messages
@@ -125,7 +128,7 @@ import { BootstrapErrorFallback } from '@/components/error/BootstrapErrorFallbac
   componentName="FeaturedQuests"
   retryCount={3}
   showDetails={process.env.NODE_ENV === 'development'}
-/>
+/>;
 ```
 
 ### 4. **Skeleton Loaders**
@@ -133,6 +136,7 @@ import { BootstrapErrorFallback } from '@/components/error/BootstrapErrorFallbac
 Loading skeleton components that provide visual feedback during API bootstrap.
 
 #### Components:
+
 - `FeaturedQuestsSkeleton` - Skeleton for quest carousel
 - `WidgetLoadingSkeleton` - Generic widget loading skeleton
 
@@ -244,18 +248,15 @@ import { FeaturedQuestsSkeleton } from './SkeletonLoaders';
 import { ErrorMessage } from '@/components/error/ErrorMessage';
 
 function MyDataWidget() {
-  const { data, loading, error, retry } = useAPIBootstrap(
-    () => fetchData(),
-    {
-      retries: 3,
-      componentName: 'MyDataWidget',
-      onError: (err) => console.error('Data fetch failed:', err),
-    }
-  );
+  const { data, loading, error, retry } = useAPIBootstrap(() => fetchData(), {
+    retries: 3,
+    componentName: 'MyDataWidget',
+    onError: (err) => console.error('Data fetch failed:', err),
+  });
 
   if (loading) return <FeaturedQuestsSkeleton />;
   if (error) return <ErrorMessage error={error} onRetry={retry} />;
-  
+
   return <div>{/* Render data */}</div>;
 }
 ```
@@ -324,6 +325,7 @@ npm run test:coverage
 ### Sentry Integration
 
 All errors are automatically reported to Sentry with:
+
 - Component name
 - Retry count
 - Error type classification
@@ -334,6 +336,7 @@ All errors are automatically reported to Sentry with:
 ### Console Logging
 
 Errors are also logged to console in development mode:
+
 ```
 API Bootstrap Error - FeaturedQuests: Failed to fetch quests
 ```
@@ -440,6 +443,7 @@ export default function FeaturedQuests() {
 ## Support & Questions
 
 For questions or issues, refer to:
+
 1. Component storybook examples
 2. Unit test examples
 3. GitHub discussions

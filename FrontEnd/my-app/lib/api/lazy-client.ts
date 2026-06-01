@@ -19,6 +19,6 @@ export async function getLazyApiClient() {
  * Use in components or services that only need the client on user interaction.
  */
 export async function getLazyAuthClient() {
-  const { authClient } = await import('./auth');
-  return { authClient };
+  const { apiClient } = await import('./client');
+  return { authClient: apiClient };
 }

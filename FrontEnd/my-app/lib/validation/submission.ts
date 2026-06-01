@@ -261,10 +261,12 @@ export function validateProofPayload(proof: ProofPayload): ValidationResult {
   }
 
   if (proof.type === 'link') {
-    errors.push(...validateLink(proof.link ?? '').map((error) => ({
-      ...error,
-      field: 'proof.link',
-    })));
+    errors.push(
+      ...validateLink(proof.link ?? '').map((error) => ({
+        ...error,
+        field: 'proof.link',
+      }))
+    );
   }
 
   if (proof.type === 'text') {
@@ -286,7 +288,11 @@ export function validateProofPayload(proof: ProofPayload): ValidationResult {
 
   if (proof.type === 'file') {
     errors.push(
-      ...validateFileProofMetadata(proof.fileName, proof.fileSize, proof.fileType)
+      ...validateFileProofMetadata(
+        proof.fileName,
+        proof.fileSize,
+        proof.fileType
+      )
     );
 
     const hasInlineContent =
@@ -302,7 +308,11 @@ export function validateProofPayload(proof: ProofPayload): ValidationResult {
       });
     }
 
-    if (hasInlineContent && proof.fileSize != null && proof.fileSize > MAX_INLINE_FILE_SIZE) {
+    if (
+      hasInlineContent &&
+      proof.fileSize != null &&
+      proof.fileSize > MAX_INLINE_FILE_SIZE
+    ) {
       errors.push({
         field: 'proof.fileContent',
         message: 'Inline file content is only allowed for files up to 5MB',
@@ -368,9 +378,7 @@ export function assertValidCreateSubmissionRequest(
 ): void {
   const result = validateCreateSubmissionRequest(payload);
   if (!result.isValid) {
-    throw new Error(
-      result.errors[0]?.message ?? 'Invalid submission payload'
-    );
+    throw new Error(result.errors[0]?.message ?? 'Invalid submission payload');
   }
 }
 

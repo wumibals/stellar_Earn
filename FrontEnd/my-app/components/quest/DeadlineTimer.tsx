@@ -1,10 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import {
-  calculateTimeRemaining,
-  type TimeRemaining,
-} from '@/lib/utils/date';
+import { calculateTimeRemaining, type TimeRemaining } from '@/lib/utils/date';
 
 interface DeadlineTimerProps {
   deadline: string;
@@ -35,7 +32,6 @@ export function DeadlineTimer({
     return () => clearInterval(interval);
     // Only re-run when the deadline string or the external isExpired flag changes,
     // not on every tick — avoids interval thrash.
-     
   }, [deadline, isExpired]);
 
   if (isExpired || timeRemaining.isExpired) {

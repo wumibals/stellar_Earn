@@ -36,7 +36,9 @@ function validateTsconfigPaths(tsconfigPath) {
 
   const resolvedBaseUrl = path.resolve(tsconfigDir, baseUrl);
   if (!fs.existsSync(resolvedBaseUrl)) {
-    errors.push(`compilerOptions.baseUrl does not exist at ${resolvedBaseUrl}.`);
+    errors.push(
+      `compilerOptions.baseUrl does not exist at ${resolvedBaseUrl}.`
+    );
     return { errors };
   }
 
@@ -48,19 +50,25 @@ function validateTsconfigPaths(tsconfigPath) {
   aliasKeys.forEach((aliasKey) => {
     const aliasValue = paths[aliasKey];
     if (!Array.isArray(aliasValue) || aliasValue.length === 0) {
-      errors.push(`Path alias '${aliasKey}' must map to a non-empty array of paths.`);
+      errors.push(
+        `Path alias '${aliasKey}' must map to a non-empty array of paths.`
+      );
       return;
     }
 
     const aliasWildcardCount = normalizeWildcardCount(aliasKey);
     if (aliasWildcardCount > 1) {
-      errors.push(`Path alias '${aliasKey}' may contain at most one wildcard ('*').`);
+      errors.push(
+        `Path alias '${aliasKey}' may contain at most one wildcard ('*').`
+      );
       return;
     }
 
     aliasValue.forEach((targetPath) => {
       if (typeof targetPath !== 'string' || targetPath.trim().length === 0) {
-        errors.push(`Path alias '${aliasKey}' contains an invalid target path.`);
+        errors.push(
+          `Path alias '${aliasKey}' contains an invalid target path.`
+        );
         return;
       }
 
@@ -70,12 +78,15 @@ function validateTsconfigPaths(tsconfigPath) {
           `Wildcard count mismatch for alias '${aliasKey}': target path '${targetPath}' must ${
             aliasWildcardCount ? 'include' : 'not include'
           } a wildcard.
-        `);
+        `
+        );
         return;
       }
 
       if (aliasWildcardCount > 1 || targetWildcardCount > 1) {
-        errors.push(`Only one wildcard ('*') is allowed per alias or target path. Found '${aliasKey}' -> '${targetPath}'.`);
+        errors.push(
+          `Only one wildcard ('*') is allowed per alias or target path. Found '${aliasKey}' -> '${targetPath}'.`
+        );
         return;
       }
 
@@ -83,7 +94,9 @@ function validateTsconfigPaths(tsconfigPath) {
       const resolvedTarget = path.resolve(resolvedBaseUrl, candidate);
 
       if (!fs.existsSync(resolvedTarget)) {
-        errors.push(`Path alias '${aliasKey}' maps to a missing path: ${resolvedTarget}`);
+        errors.push(
+          `Path alias '${aliasKey}' maps to a missing path: ${resolvedTarget}`
+        );
         return;
       }
     });

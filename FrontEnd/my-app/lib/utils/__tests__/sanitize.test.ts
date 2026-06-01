@@ -137,7 +137,9 @@ describe('sanitizeText', () => {
 
 describe('rel enforcement hook', () => {
   it('adds rel="noopener noreferrer" to anchors with target attribute', () => {
-    const result = sanitizeRichHtml('<a href="https://example.com" target="_blank">link</a>');
+    const result = sanitizeRichHtml(
+      '<a href="https://example.com" target="_blank">link</a>'
+    );
     expect(result).toContain('rel="noopener noreferrer"');
   });
 

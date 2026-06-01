@@ -68,7 +68,11 @@ export function FeaturedQuestsSkeleton() {
                     variants={shimmerAnimation}
                     initial="initial"
                     animate="animate"
-                    transition={{ duration: 2, repeat: Infinity, delay: 0.2 + j * 0.05 }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      delay: 0.2 + j * 0.05,
+                    }}
                   />
                 ))}
                 <motion.div

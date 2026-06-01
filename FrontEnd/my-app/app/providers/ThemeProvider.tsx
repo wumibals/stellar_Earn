@@ -56,9 +56,10 @@ function useSafeThemeState() {
       const storedTheme = window.localStorage.getItem(
         THEME_STORAGE_KEY
       ) as Theme | null;
-      const initialTheme = storedTheme === 'dark' || storedTheme === 'light'
-        ? storedTheme
-        : getSystemTheme();
+      const initialTheme =
+        storedTheme === 'dark' || storedTheme === 'light'
+          ? storedTheme
+          : getSystemTheme();
       setThemeState(initialTheme);
       applyTheme(initialTheme);
     } catch (err) {
@@ -76,7 +77,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Persist theme to localStorage when it changes
   useEffect(() => {
     if (!isHydrated) return;
-    
+
     try {
       applyTheme(theme);
       window.localStorage.setItem(THEME_STORAGE_KEY, theme);

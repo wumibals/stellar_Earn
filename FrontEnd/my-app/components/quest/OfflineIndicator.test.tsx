@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { OfflineIndicator } from './OfflineIndicator';
 
@@ -34,9 +35,7 @@ describe('OfflineIndicator', () => {
     const onDismiss = vi.fn();
     const user = userEvent.setup();
 
-    render(
-      <OfflineIndicator isOffline={true} onDismiss={onDismiss} />
-    );
+    render(<OfflineIndicator isOffline={true} onDismiss={onDismiss} />);
 
     const dismissButton = screen.getByRole('button', { name: /dismiss/i });
     await user.click(dismissButton);
@@ -77,8 +76,8 @@ describe('OfflineIndicator', () => {
     render(<OfflineIndicator isOffline={true} />);
 
     const alert = screen.getByRole('alert');
-    expect(alert).toHaveAttribute('aria-live', 'assertive');
-    expect(alert).toHaveAttribute('aria-label', 'Offline notification');
+    expect(alert.getAttribute('aria-live')).toBe('assertive');
+    expect(alert.getAttribute('aria-label')).toBe('Offline notification');
   });
 
   it('shows success status with proper ARIA attributes', async () => {
@@ -88,7 +87,7 @@ describe('OfflineIndicator', () => {
 
     await waitFor(() => {
       const status = screen.getByRole('status');
-      expect(status).toHaveAttribute('aria-live', 'polite');
+      expect(status.getAttribute('aria-live')).toBe('polite');
     });
   });
 });

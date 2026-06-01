@@ -259,7 +259,7 @@ export function usePaginatedApi<T>(
         }
       }
     },
-     
+
     [fetcher, limit]
   );
 

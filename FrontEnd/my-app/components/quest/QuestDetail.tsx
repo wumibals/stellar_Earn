@@ -66,9 +66,9 @@ export function QuestDetail({ quest }: QuestDetailProps) {
         {/* Right Column - Rewards and Timer */}
         <div className="space-y-6">
           <RewardDisplay
-            rewardAmount={quest.rewardAmount}
+            rewardAmount={Number(quest.rewardAmount) || 0}
             rewardAsset={quest.rewardAsset}
-            xpReward={quest.xpReward}
+            xpReward={quest.xpReward || 0}
           />
 
           {hasDeadline && (

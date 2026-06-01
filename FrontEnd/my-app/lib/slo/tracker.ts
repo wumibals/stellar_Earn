@@ -47,7 +47,11 @@ class SLOTracker {
     this.pruneMetrics(this.performanceMetrics);
   }
 
-  trackTestResult(testName: string, passed: boolean, retries: number = 0): void {
+  trackTestResult(
+    testName: string,
+    passed: boolean,
+    retries: number = 0
+  ): void {
     if (!isSLOTrackingEnabled()) return;
 
     this.testMetrics.push({
@@ -66,19 +70,25 @@ class SLOTracker {
     }
   }
 
-  getMetricsInTimeWindow(metrics: SLOMetric[], timeWindow: number): SLOMetric[] {
+  getMetricsInTimeWindow(
+    metrics: SLOMetric[],
+    timeWindow: number
+  ): SLOMetric[] {
     const cutoff = Date.now() - timeWindow;
     return metrics.filter((m) => m.timestamp >= cutoff);
   }
 
-  calculateErrorRate(timeWindow: number = SLO_CONFIG.timeWindow): ErrorRateData {
+  calculateErrorRate(
+    timeWindow: number = SLO_CONFIG.timeWindow
+  ): ErrorRateData {
     const metrics = this.getMetricsInTimeWindow(this.errorMetrics, timeWindow);
     const errorsByType: Record<string, number> = {};
 
     let totalErrors = 0;
     for (const metric of metrics) {
       totalErrors += metric.value;
-      errorsByType[metric.name] = (errorsByType[metric.name] || 0) + metric.value;
+      errorsByType[metric.name] =
+        (errorsByType[metric.name] || 0) + metric.value;
     }
 
     // For testing: use a fixed base to make error rate calculations predictable
@@ -135,7 +145,9 @@ class SLOTracker {
     };
   }
 
-  calculateTestFlakeRate(timeWindow: number = SLO_CONFIG.timeWindow): TestFlakeData {
+  calculateTestFlakeRate(
+    timeWindow: number = SLO_CONFIG.timeWindow
+  ): TestFlakeData {
     const metrics = this.getMetricsInTimeWindow(this.testMetrics, timeWindow);
     const flakyTestsByName: Record<string, number> = {};
 
@@ -145,13 +157,17 @@ class SLOTracker {
 
     for (const metric of metrics) {
       totalTests++;
-      const metadata = metric.metadata as { passed?: boolean; retries?: number };
+      const metadata = metric.metadata as {
+        passed?: boolean;
+        retries?: number;
+      };
       totalRetries += metadata.retries || 0;
 
       // A test is considered flaky if it failed after retries or had retries
       if (!metadata.passed || (metadata.retries && metadata.retries > 0)) {
         flakyTests++;
-        flakyTestsByName[metric.name] = (flakyTestsByName[metric.name] || 0) + 1;
+        flakyTestsByName[metric.name] =
+          (flakyTestsByName[metric.name] || 0) + 1;
       }
     }
 

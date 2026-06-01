@@ -9,6 +9,7 @@ This document describes the frontend SLO implementation for the StellarEarn appl
 ### Error Rate SLO
 
 **Target**: 1% error rate (0.01)
+
 - **Warning Threshold**: 2% (0.02)
 - **Critical Threshold**: 5% (0.05)
 
@@ -19,12 +20,14 @@ The error rate SLO tracks the percentage of user requests that result in errors.
 ### p95 Load Time SLO
 
 **Target**: 2000ms (2 seconds)
+
 - **Warning Threshold**: 3000ms (3 seconds)
 - **Critical Threshold**: 5000ms (5 seconds)
 
 The p95 load time SLO tracks the 95th percentile of page load times, ensuring that 95% of users experience load times within the target. This metric uses Web Vitals (LCP - Largest Contentful Paint) as the primary indicator.
 
 **Metrics Tracked**:
+
 - LCP (Largest Contentful Paint)
 - FCP (First Contentful Paint)
 - TTFB (Time to First Byte)
@@ -34,6 +37,7 @@ The p95 load time SLO tracks the 95th percentile of page load times, ensuring th
 ### Test Flake Rate SLO
 
 **Target**: 2% flake rate (0.02)
+
 - **Warning Threshold**: 5% (0.05)
 - **Critical Threshold**: 10% (0.10)
 
@@ -46,28 +50,33 @@ The test flake rate SLO tracks the percentage of tests that fail intermittently 
 ### Core Components
 
 #### 1. SLO Configuration (`lib/slo/config.ts`)
+
 - Defines SLO thresholds and targets
 - Configures time windows and sampling rates
 - Environment-specific enablement
 
 #### 2. SLO Tracker (`lib/slo/tracker.ts`)
+
 - Core tracking logic for all SLO metrics
 - In-memory metric storage (can be extended to use persistent storage)
 - Calculates error rates, performance percentiles, and test flake rates
 - Provides metric status evaluation with trend analysis
 
 #### 3. SLO Reporter (`lib/slo/reporter.ts`)
+
 - Generates comprehensive SLO reports
 - Evaluates overall system health
 - Formats reports for display
 - Checks for alert conditions
 
 #### 4. Test Flake Tracker (`lib/slo/test-tracker.ts`)
+
 - Tracks individual test results
 - Identifies flaky tests based on failures and retries
 - Calculates per-test and overall flake rates
 
 #### 5. SLO Dashboard (`components/admin/SLODashboard.tsx`)
+
 - React component for visualizing SLO data
 - Real-time metric display with status indicators
 - Alert notifications for threshold breaches
@@ -76,16 +85,19 @@ The test flake rate SLO tracks the percentage of tests that fail intermittently 
 ### Integration Points
 
 #### Sentry Integration (`lib/sentry.ts`)
+
 - Errors are automatically tracked via Sentry's `beforeSend` hook
 - Error types are categorized for detailed analysis
 - Error counts feed into the error rate SLO calculation
 
 #### Web Vitals Integration (`lib/utils/performance.ts`)
+
 - Performance metrics are tracked using the `web-vitals` library
 - Metrics are sampled to reduce overhead (10% sampling in production)
 - All metrics feed into the p95 load time SLO calculation
 
 #### Test Integration
+
 - Vitest and Playwright test results can be integrated
 - Test flake tracker records results and calculates flake rates
 - Retry information is captured for flake detection
@@ -191,7 +203,7 @@ export const DEFAULT_SLO_THRESHOLDS: SLOThresholds = {
   testFlakeRate: {
     target: 0.02,
     warning: 0.05,
-    critical: 0.10,
+    critical: 0.1,
   },
 };
 ```
@@ -211,6 +223,7 @@ npm run test:coverage -- lib/slo
 ### Test Coverage
 
 The SLO system includes comprehensive unit tests for:
+
 - Tracker functionality
 - Reporter functionality
 - Test flake tracker functionality
@@ -234,6 +247,7 @@ The SLO system includes comprehensive unit tests for:
 ### Alert Channels
 
 Alerts can be configured to send to:
+
 - Sentry (for error tracking)
 - Console (for development)
 - Custom webhooks (can be added)

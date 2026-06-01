@@ -43,7 +43,10 @@ function sendWebVitalsMetric(metric: {
     body: payload,
     keepalive: true,
   }).catch((err) => {
-    console.warn('Failed to send web vitals metric to backend analytics endpoint', err);
+    console.warn(
+      'Failed to send web vitals metric to backend analytics endpoint',
+      err
+    );
   });
 }
 

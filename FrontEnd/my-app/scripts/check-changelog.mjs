@@ -59,13 +59,18 @@ const WATCHED = [
 ];
 
 const CHANGELOG_PATH = /^FrontEnd\/my-app\/CHANGELOG\.md$/;
-const CHANGESET_FILE = /^FrontEnd\/my-app\/\.changeset\/(?!README\.md$|TEMPLATE\.md$).+\.md$/;
+const CHANGESET_FILE =
+  /^FrontEnd\/my-app\/\.changeset\/(?!README\.md$|TEMPLATE\.md$).+\.md$/;
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 function sh(cmd, opts = {}) {
-  return execSync(cmd, { cwd: repoRoot, stdio: ['ignore', 'pipe', 'pipe'], ...opts })
+  return execSync(cmd, {
+    cwd: repoRoot,
+    stdio: ['ignore', 'pipe', 'pipe'],
+    ...opts,
+  })
     .toString()
     .trim();
 }
@@ -112,7 +117,7 @@ function getChangedFiles() {
   if (!base) {
     warn(
       'No base ref found (tried origin/main, origin/master, main, master). ' +
-        'Falling back to HEAD~1.',
+        'Falling back to HEAD~1.'
     );
     base = 'HEAD~1';
   }
@@ -132,17 +137,22 @@ function getChangedFiles() {
 
 function isSkipRequested(changedFiles) {
   // 1. Env var (set by the GH workflow when the `changelog-skip` label is present).
-  if (process.env.CHANGELOG_SKIP === '1' || process.env.CHANGELOG_SKIP === 'true') {
+  if (
+    process.env.CHANGELOG_SKIP === '1' ||
+    process.env.CHANGELOG_SKIP === 'true'
+  ) {
     return 'env CHANGELOG_SKIP=1';
   }
   // 2. PR title / commit messages.
   const needles = [/\[changelog-skip\]/i, /\[skip changelog\]/i];
   const prTitle = process.env.PR_TITLE || '';
-  if (needles.some((r) => r.test(prTitle))) return `PR title contains skip token`;
+  if (needles.some((r) => r.test(prTitle)))
+    return `PR title contains skip token`;
 
   try {
     const msgs = sh('git log -50 --pretty=%B');
-    if (needles.some((r) => r.test(msgs))) return 'commit message contains skip token';
+    if (needles.some((r) => r.test(msgs)))
+      return 'commit message contains skip token';
   } catch {
     /* ignore */
   }
@@ -157,13 +167,13 @@ function main() {
   if (!existsSync(resolve(feRoot, 'CHANGELOG.md'))) {
     fail(
       `CHANGELOG.md is missing at ${resolve(feRoot, 'CHANGELOG.md')}. ` +
-        'See docs/TYPE_CHANGES_POLICY.md.',
+        'See docs/TYPE_CHANGES_POLICY.md.'
     );
   }
   if (!existsSync(resolve(feRoot, '.changeset'))) {
     fail(
       `.changeset/ directory is missing at ${resolve(feRoot, '.changeset')}. ` +
-        'See docs/TYPE_CHANGES_POLICY.md.',
+        'See docs/TYPE_CHANGES_POLICY.md.'
     );
   }
 
@@ -182,7 +192,9 @@ function main() {
 
   const watchedHits = changed.filter((f) => WATCHED.some((r) => r.test(f)));
   if (watchedHits.length === 0) {
-    log(`No watched type/model files changed (${changed.length} files diffed). ✅`);
+    log(
+      `No watched type/model files changed (${changed.length} files diffed). ✅`
+    );
     process.exit(0);
   }
 
@@ -191,7 +203,9 @@ function main() {
 
   const skipReason = isSkipRequested(changed);
   if (skipReason) {
-    log(`Skip token detected (${skipReason}) — bypassing changelog requirement. ⚠ ✅`);
+    log(
+      `Skip token detected (${skipReason}) — bypassing changelog requirement. ⚠ ✅`
+    );
     process.exit(0);
   }
 
@@ -227,7 +241,7 @@ Resolve in one of these ways:
      to the PR or include "[changelog-skip]" in the PR title /
      commit message.
 
-Full policy: FrontEnd/my-app/docs/TYPE_CHANGES_POLICY.md`,
+Full policy: FrontEnd/my-app/docs/TYPE_CHANGES_POLICY.md`
   );
 }
 

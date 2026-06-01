@@ -3,6 +3,7 @@
 ## 📚 Documentation Map
 
 ### Start Here
+
 1. **[FE-028-COMPLETE-CHECKLIST.md](./FE-028-COMPLETE-CHECKLIST.md)** ⭐ START HERE
    - Quick overview of what was implemented
    - Visual summary and metrics
@@ -14,6 +15,7 @@
    - Troubleshooting
 
 ### Comprehensive Guides
+
 3. **[docs/FE-028-IMPLEMENTATION.md](./docs/FE-028-IMPLEMENTATION.md)** 📖 MAIN GUIDE
    - Feature overview and architecture
    - Component API documentation
@@ -43,6 +45,7 @@
 ### Core Components
 
 #### 1. APIBootstrapErrorBoundary
+
 - **File**: `components/error/APIBootstrapErrorBoundary.tsx`
 - **Purpose**: Main error boundary for catching bootstrap errors
 - **Key Features**:
@@ -51,6 +54,7 @@
   - Sentry integration
   - Custom fallback support
 - **Usage**: Wrap components that might fail
+
 ```tsx
 <APIBootstrapErrorBoundary componentName="MyWidget">
   <YourComponent />
@@ -58,6 +62,7 @@
 ```
 
 #### 2. BootstrapErrorFallback
+
 - **File**: `components/error/BootstrapErrorFallback.tsx`
 - **Purpose**: Error UI with smart error detection
 - **Key Features**:
@@ -68,6 +73,7 @@
 - **Usage**: Default fallback for error boundary (or create custom)
 
 #### 3. useAPIBootstrap Hook
+
 - **File**: `lib/hooks/useAPIBootstrap.ts`
 - **Purpose**: Manage API calls with retry logic
 - **Key Features**:
@@ -76,14 +82,16 @@
   - Error reporting
   - Manual retry capability
 - **Usage**: Wrap API calls in components
+
 ```tsx
-const { data, loading, error, retry } = useAPIBootstrap(
-  () => fetchData(),
-  { retries: 3, componentName: 'MyComponent' }
-);
+const { data, loading, error, retry } = useAPIBootstrap(() => fetchData(), {
+  retries: 3,
+  componentName: 'MyComponent',
+});
 ```
 
 #### 4. SkeletonLoaders
+
 - **File**: `components/homepage/SkeletonLoaders.tsx`
 - **Purpose**: Loading placeholders during data fetch
 - **Key Features**:
@@ -97,6 +105,7 @@ const { data, loading, error, retry } = useAPIBootstrap(
 ### Enhanced Components
 
 #### FeaturedQuests Widget
+
 - **File**: `components/homepage/FeaturedQuests.tsx`
 - **Changes**:
   - Wrapped with APIBootstrapErrorBoundary
@@ -109,6 +118,7 @@ const { data, loading, error, retry } = useAPIBootstrap(
 ### Supporting Files
 
 #### Exports Index
+
 - **File**: `components/error/index.ts`
 - **Purpose**: Central export point for all error components
 
@@ -149,6 +159,7 @@ const { data, loading, error, retry } = useAPIBootstrap(
      - Integration with error boundary
 
 ### Running Tests
+
 ```bash
 npm run test                              # Run all tests
 npm run test -- useAPIBootstrap.test.ts   # Run specific file
@@ -161,6 +172,7 @@ npm run test:coverage                     # Coverage report
 ## 🏗️ Architecture Overview
 
 ### Error Handling Flow
+
 ```
 Component Input
     ↓
@@ -182,6 +194,7 @@ Component State
 ```
 
 ### Error Classification
+
 ```
 Error Type          Detection           Behavior
 ─────────────────────────────────────────────────
@@ -234,26 +247,31 @@ FrontEnd/my-app/
 ## 🎯 Quick Links by Use Case
 
 ### "I want to use this in my component"
+
 1. Read: [FE-028-QUICKSTART.md](./FE-028-QUICKSTART.md)
 2. Example: [FeaturedQuests.tsx](./components/homepage/FeaturedQuests.tsx)
 3. Copy: Basic wrapper pattern
 
 ### "I want to understand how it works"
+
 1. Read: [docs/FE-028-IMPLEMENTATION.md](./docs/FE-028-IMPLEMENTATION.md)
 2. Review: Architecture section
 3. Check: Error flow diagrams
 
 ### "I need to troubleshoot an issue"
+
 1. Check: [FE-028-QUICKSTART.md](./FE-028-QUICKSTART.md) - Troubleshooting section
 2. Review: Test files for expected behavior
 3. Read: Full implementation guide
 
 ### "I'm deploying this"
+
 1. Review: [FE-028-IMPLEMENTATION-REPORT.md](./FE-028-IMPLEMENTATION-REPORT.md)
 2. Check: Deployment checklist
 3. Monitor: Sentry integration
 
 ### "I want to write tests"
+
 1. Review: [components/error/APIBootstrapErrorBoundary.test.tsx](./components/error/APIBootstrapErrorBoundary.test.tsx)
 2. Review: [lib/hooks/useAPIBootstrap.test.ts](./lib/hooks/useAPIBootstrap.test.ts)
 3. Copy: Test patterns
@@ -262,18 +280,18 @@ FrontEnd/my-app/
 
 ## 📊 Project Statistics
 
-| Metric | Count |
-|--------|-------|
-| **Files Created** | 13 |
-| **Files Updated** | 2 |
-| **Lines of Code** | 1,000+ |
-| **Test Cases** | 28 |
-| **Documentation Pages** | 5 |
-| **Components** | 4 new |
-| **Hooks** | 1 new |
-| **TypeScript** | 100% |
-| **Test Pass Rate** | 100% |
-| **Bundle Size** | ~4KB gzipped |
+| Metric                  | Count        |
+| ----------------------- | ------------ |
+| **Files Created**       | 13           |
+| **Files Updated**       | 2            |
+| **Lines of Code**       | 1,000+       |
+| **Test Cases**          | 28           |
+| **Documentation Pages** | 5            |
+| **Components**          | 4 new        |
+| **Hooks**               | 1 new        |
+| **TypeScript**          | 100%         |
+| **Test Pass Rate**      | 100%         |
+| **Bundle Size**         | ~4KB gzipped |
 
 ---
 
@@ -299,22 +317,27 @@ FrontEnd/my-app/
 ## 🚀 Getting Started
 
 ### Step 1: Read the Overview
+
 - Open: [FE-028-COMPLETE-CHECKLIST.md](./FE-028-COMPLETE-CHECKLIST.md)
 - Time: 5 minutes
 
 ### Step 2: Quick Examples
+
 - Open: [FE-028-QUICKSTART.md](./FE-028-QUICKSTART.md)
 - Time: 10 minutes
 
 ### Step 3: Real Example
+
 - Review: [components/homepage/FeaturedQuests.tsx](./components/homepage/FeaturedQuests.tsx)
 - Time: 10 minutes
 
 ### Step 4: Full Deep Dive
+
 - Read: [docs/FE-028-IMPLEMENTATION.md](./docs/FE-028-IMPLEMENTATION.md)
 - Time: 20 minutes
 
 ### Step 5: Review Tests
+
 - Check: Test files for patterns
 - Time: 15 minutes
 
@@ -323,16 +346,19 @@ FrontEnd/my-app/
 ## 📞 Support Resources
 
 ### Documentation
+
 - **Quick Start**: [FE-028-QUICKSTART.md](./FE-028-QUICKSTART.md)
 - **Full Guide**: [docs/FE-028-IMPLEMENTATION.md](./docs/FE-028-IMPLEMENTATION.md)
 - **Implementation Report**: [FE-028-IMPLEMENTATION-REPORT.md](./FE-028-IMPLEMENTATION-REPORT.md)
 
 ### Code Examples
+
 - **Component Wrapper**: [components/homepage/FeaturedQuests.tsx](./components/homepage/FeaturedQuests.tsx)
 - **Hook Usage**: [lib/hooks/useAPIBootstrap.ts](./lib/hooks/useAPIBootstrap.ts)
 - **Error Boundary**: [components/error/APIBootstrapErrorBoundary.tsx](./components/error/APIBootstrapErrorBoundary.tsx)
 
 ### Tests
+
 - **Component Tests**: [components/error/APIBootstrapErrorBoundary.test.tsx](./components/error/APIBootstrapErrorBoundary.test.tsx)
 - **Hook Tests**: [lib/hooks/useAPIBootstrap.test.ts](./lib/hooks/useAPIBootstrap.test.ts)
 - **Integration Tests**: [components/homepage/FeaturedQuests.test.tsx](./components/homepage/FeaturedQuests.test.tsx)
@@ -342,18 +368,21 @@ FrontEnd/my-app/
 ## 🎓 Learning Path
 
 ### Beginner (New to the codebase)
+
 1. FE-028-COMPLETE-CHECKLIST.md
 2. FE-028-QUICKSTART.md
 3. FeaturedQuests.tsx
 4. Run tests to see it in action
 
 ### Intermediate (Familiar with React)
+
 1. FE-028-QUICKSTART.md
 2. docs/FE-028-IMPLEMENTATION.md (Sections 1-4)
 3. APIBootstrapErrorBoundary.tsx
 4. useAPIBootstrap.ts
 
 ### Advanced (Deep dive)
+
 1. docs/FE-028-IMPLEMENTATION.md (Full)
 2. FE-028-IMPLEMENTATION-REPORT.md
 3. All test files
@@ -363,9 +392,9 @@ FrontEnd/my-app/
 
 ## 🔄 Version History
 
-| Version | Date | Status | Notes |
-|---------|------|--------|-------|
-| 1.0.0 | 2026-05-28 | ✅ Complete | Initial production release |
+| Version | Date       | Status      | Notes                      |
+| ------- | ---------- | ----------- | -------------------------- |
+| 1.0.0   | 2026-05-28 | ✅ Complete | Initial production release |
 
 ---
 

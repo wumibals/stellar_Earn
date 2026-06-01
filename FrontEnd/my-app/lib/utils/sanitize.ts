@@ -21,10 +21,27 @@ if (isBrowser) {
 
 const RICH_CONFIG: SanitizeConfig = {
   ALLOWED_TAGS: [
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-    'br', 'p', 'ul', 'ol', 'li',
-    'strong', 'b', 'em', 'i', 'u',
-    'a', 'code', 'pre', 'blockquote', 'hr',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'br',
+    'p',
+    'ul',
+    'ol',
+    'li',
+    'strong',
+    'b',
+    'em',
+    'i',
+    'u',
+    'a',
+    'code',
+    'pre',
+    'blockquote',
+    'hr',
   ],
   ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
   ALLOW_DATA_ATTR: false,
@@ -37,11 +54,13 @@ const BASIC_CONFIG: SanitizeConfig = {
   ALLOW_DATA_ATTR: false,
 };
 
-const createSanitizer = (config: SanitizeConfig) => (dirty: string): string => {
-  if (!dirty) return '';
-  if (!isBrowser) return '';
-  return DOMPurify.sanitize(dirty, config) as string;
-};
+const createSanitizer =
+  (config: SanitizeConfig) =>
+  (dirty: string): string => {
+    if (!dirty) return '';
+    if (!isBrowser) return '';
+    return DOMPurify.sanitize(dirty, config) as string;
+  };
 
 export const sanitizeHtml = createSanitizer(RICH_CONFIG);
 

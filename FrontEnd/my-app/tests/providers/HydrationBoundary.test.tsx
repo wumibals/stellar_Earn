@@ -31,7 +31,9 @@ describe('HydrationBoundary Component', () => {
 
   it('should render fallback on server', () => {
     const { container } = render(
-      <HydrationBoundary fallback={<div data-testid="fallback">Loading...</div>}>
+      <HydrationBoundary
+        fallback={<div data-testid="fallback">Loading...</div>}
+      >
         <div>Client Content</div>
       </HydrationBoundary>
     );
@@ -42,7 +44,9 @@ describe('HydrationBoundary Component', () => {
 
   it('should replace fallback with content after hydration', async () => {
     render(
-      <HydrationBoundary fallback={<div data-testid="fallback">Loading...</div>}>
+      <HydrationBoundary
+        fallback={<div data-testid="fallback">Loading...</div>}
+      >
         <div data-testid="actual-content">Actual Content</div>
       </HydrationBoundary>
     );

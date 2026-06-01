@@ -42,47 +42,59 @@ function FeaturedQuestsContent() {
   /**
    * Fetch quests with improved error handling
    */
-  const fetchQuests = useCallback(async (customTimeout?: number) => {
-    cancelRef.current.cancel();
-    cancelRef.current = createCancelToken();
-    setLoading(true);
-    setError(null);
+  const fetchQuests = useCallback(
+    async (customTimeout?: number) => {
+      cancelRef.current.cancel();
+      cancelRef.current = createCancelToken();
+      setLoading(true);
+      setError(null);
 
-    try {
-      const res = await getQuests(TAB_PARAMS[activeFilter], cancelRef.current, customTimeout, {
-        onRevalidate: (fresh) => {
-          const freshItems = (fresh as any).data ?? (fresh as any).quests ?? [];
-          setQuests(freshItems);
-        },
-      });
-      const items = (res as any).data ?? (res as any).quests ?? [];
-      setQuests(items);
-      setRetryCount(0); // Reset retry count on success
-    } catch (err) {
-      // Don't show error if request was cancelled (e.g., component unmounting)
-      if (err && typeof err === 'object' && ('name' in err)) {
-        const errorName = (err as any).name;
-        if (errorName === 'CanceledError' || errorName === 'AbortError') {
-          return;
+      try {
+        const res = await getQuests(
+          TAB_PARAMS[activeFilter],
+          cancelRef.current,
+          customTimeout,
+          {
+            onRevalidate: (fresh) => {
+              const freshItems =
+                (fresh as any).data ?? (fresh as any).quests ?? [];
+              setQuests(freshItems);
+            },
+          }
+        );
+        const items = (res as any).data ?? (res as any).quests ?? [];
+        setQuests(items);
+        setRetryCount(0); // Reset retry count on success
+      } catch (err) {
+        // Don't show error if request was cancelled (e.g., component unmounting)
+        if (err && typeof err === 'object' && 'name' in err) {
+          const errorName = (err as any).name;
+          if (errorName === 'CanceledError' || errorName === 'AbortError') {
+            return;
+          }
         }
-      }
 
-      const appError = err as AppError;
-      setError(appError);
-    } finally {
-      setLoading(false);
-    }
-  }, [activeFilter]);
+        const appError = err as AppError;
+        setError(appError);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [activeFilter]
+  );
 
   /**
    * Handle manual retry from error UI
    */
-  const handleRetry = useCallback(async (useExtended: boolean = false) => {
-    setRetryCount((prev) => prev + 1);
-    setCountdown(5); // Reset countdown
-    setIsExtendedTimeout(useExtended);
-    await fetchQuests(useExtended ? 60000 : undefined);
-  }, [fetchQuests]);
+  const handleRetry = useCallback(
+    async (useExtended: boolean = false) => {
+      setRetryCount((prev) => prev + 1);
+      setCountdown(5); // Reset countdown
+      setIsExtendedTimeout(useExtended);
+      await fetchQuests(useExtended ? 60000 : undefined);
+    },
+    [fetchQuests]
+  );
 
   /**
    * Auto-retry countdown effect
@@ -122,11 +134,17 @@ function FeaturedQuestsContent() {
   // Loading state - show skeleton
   if (loading && quests.length === 0) {
     return (
-      <section className="featured-quests" aria-labelledby="featured-quests-heading">
+      <section
+        className="featured-quests"
+        aria-labelledby="featured-quests-heading"
+      >
         <div className="featured-quests__header">
           <div>
             <p className="featured-quests__eyebrow">Featured Opportunities</p>
-            <h2 id="featured-quests-heading" className="featured-quests__heading">
+            <h2
+              id="featured-quests-heading"
+              className="featured-quests__heading"
+            >
               Top Quests Right Now
             </h2>
             <p className="featured-quests__subtext">
@@ -149,11 +167,17 @@ function FeaturedQuestsContent() {
       error.message?.toLowerCase().includes('timeout');
 
     return (
-      <section className="featured-quests" aria-labelledby="featured-quests-heading">
+      <section
+        className="featured-quests"
+        aria-labelledby="featured-quests-heading"
+      >
         <div className="featured-quests__header">
           <div>
             <p className="featured-quests__eyebrow">Featured Opportunities</p>
-            <h2 id="featured-quests-heading" className="featured-quests__heading">
+            <h2
+              id="featured-quests-heading"
+              className="featured-quests__heading"
+            >
               Top Quests Right Now
             </h2>
             <p className="featured-quests__subtext">
@@ -203,18 +227,38 @@ function FeaturedQuestsContent() {
                 </div>
 
                 <p className="mt-3 text-sm text-amber-300/95 leading-relaxed">
-                  The request took longer than the standard 30-second limit. This usually happens
-                  when your internet connection is slow or the quest server is temporarily overloaded.
+                  The request took longer than the standard 30-second limit.
+                  This usually happens when your internet connection is slow or
+                  the quest server is temporarily overloaded.
                 </p>
 
                 {/* Countdown Status */}
                 {autoRetry && (
                   <div className="mt-3 flex items-center gap-2 text-sm text-amber-300 font-medium">
-                    <svg className="h-4 w-4 animate-spin text-amber-400" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    <svg
+                      className="h-4 w-4 animate-spin text-amber-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
                     </svg>
-                    <span>Auto-retrying in <strong className="text-amber-200">{countdown}s</strong>...</span>
+                    <span>
+                      Auto-retrying in{' '}
+                      <strong className="text-amber-200">{countdown}s</strong>
+                      ...
+                    </span>
                   </div>
                 )}
 
@@ -224,8 +268,18 @@ function FeaturedQuestsContent() {
                     onClick={() => handleRetry(false)}
                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-600 hover:bg-amber-500 active:bg-amber-700 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:shadow-amber-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                   >
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
                     </svg>
                     Try Again
                   </button>
@@ -234,8 +288,18 @@ function FeaturedQuestsContent() {
                     onClick={() => handleRetry(true)}
                     className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-amber-500/30 hover:border-amber-400/50 bg-amber-900/10 hover:bg-amber-900/30 active:bg-amber-900/50 px-5 py-2.5 text-sm font-semibold text-amber-200 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                   >
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                      />
                     </svg>
                     Retry with Extended Timeout
                   </button>
@@ -251,7 +315,10 @@ function FeaturedQuestsContent() {
                       }}
                       className="h-4 w-4 rounded border-amber-500/30 bg-zinc-900 text-amber-600 focus:ring-amber-500 focus:ring-offset-zinc-900"
                     />
-                    <label htmlFor="auto-retry-checkbox" className="text-sm font-medium text-amber-300 cursor-pointer select-none">
+                    <label
+                      htmlFor="auto-retry-checkbox"
+                      className="text-sm font-medium text-amber-300 cursor-pointer select-none"
+                    >
                       Auto-retry on timeout
                     </label>
                   </div>
@@ -269,19 +336,40 @@ function FeaturedQuestsContent() {
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                     <span>Network & Diagnosis Tips</span>
                   </button>
 
                   {showDiagnostics && (
                     <div className="mt-3 rounded-lg bg-amber-950/20 border border-amber-500/10 p-3 text-xs text-amber-300/80 leading-relaxed space-y-2">
-                      <p className="font-semibold text-amber-300">Here are a few quick items to check:</p>
+                      <p className="font-semibold text-amber-300">
+                        Here are a few quick items to check:
+                      </p>
                       <ul className="list-disc list-inside space-y-1 pl-1">
-                        <li>Ensure you are not downloading or streaming high-bandwidth media in parallel.</li>
-                        <li>If utilizing a VPN, try pausing it or switching regions to minimize network latency.</li>
-                        <li>Check your connection speed using a tool like fast.com.</li>
-                        <li>Current request limit: <span className="font-mono text-amber-200">{isExtendedTimeout ? '60,000ms' : '30,000ms'}</span></li>
+                        <li>
+                          Ensure you are not downloading or streaming
+                          high-bandwidth media in parallel.
+                        </li>
+                        <li>
+                          If utilizing a VPN, try pausing it or switching
+                          regions to minimize network latency.
+                        </li>
+                        <li>
+                          Check your connection speed using a tool like
+                          fast.com.
+                        </li>
+                        <li>
+                          Current request limit:{' '}
+                          <span className="font-mono text-amber-200">
+                            {isExtendedTimeout ? '60,000ms' : '30,000ms'}
+                          </span>
+                        </li>
                       </ul>
                     </div>
                   )}
@@ -291,18 +379,26 @@ function FeaturedQuestsContent() {
                 {retryCount > 0 && (
                   <div className="mt-4 flex items-center gap-2 text-xs text-amber-400 font-medium">
                     <div className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-ping" />
-                    <span>Retry attempts: {retryCount} {isExtendedTimeout && '(using extended 60s timeout)'}</span>
+                    <span>
+                      Retry attempts: {retryCount}{' '}
+                      {isExtendedTimeout && '(using extended 60s timeout)'}
+                    </span>
                   </div>
                 )}
               </div>
             </div>
           </div>
         ) : (
-          <div className="rounded-lg border border-red-900/30 bg-red-900/10 p-6" role="alert">
+          <div
+            className="rounded-lg border border-red-900/30 bg-red-900/10 p-6"
+            role="alert"
+          >
             <div className="flex items-start gap-4">
               <div className="text-2xl flex-shrink-0">⚠️</div>
               <div className="flex-1">
-                <h3 className="font-semibold text-red-200">Unable to Load Quests</h3>
+                <h3 className="font-semibold text-red-200">
+                  Unable to Load Quests
+                </h3>
                 <p className="mt-2 text-sm text-red-300">{error.message}</p>
 
                 <div className="mt-4 flex flex-wrap gap-3">
@@ -335,7 +431,9 @@ function FeaturedQuestsContent() {
                 </div>
 
                 {retryCount > 0 && (
-                  <p className="mt-3 text-xs text-red-400">Retry attempts: {retryCount}</p>
+                  <p className="mt-3 text-xs text-red-400">
+                    Retry attempts: {retryCount}
+                  </p>
                 )}
               </div>
             </div>
@@ -347,7 +445,10 @@ function FeaturedQuestsContent() {
 
   // Success state - show content
   return (
-    <section className="featured-quests" aria-labelledby="featured-quests-heading">
+    <section
+      className="featured-quests"
+      aria-labelledby="featured-quests-heading"
+    >
       <div className="featured-quests__header">
         <div>
           <p className="featured-quests__eyebrow">Featured Opportunities</p>
@@ -392,4 +493,3 @@ export default function FeaturedQuests() {
     </APIBootstrapErrorBoundary>
   );
 }
-

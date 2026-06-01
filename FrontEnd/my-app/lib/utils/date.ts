@@ -67,9 +67,7 @@ export interface ParseDateResult {
  * parseDate('not-a-date')           // { date: null, isValid: false, error: '...' }
  * parseDate(null)                   // { date: null, isValid: false, error: '...' }
  */
-export function parseDate(
-  input: unknown
-): ParseDateResult {
+export function parseDate(input: unknown): ParseDateResult {
   // Guard: null / undefined
   if (input === null || input === undefined) {
     return {
@@ -177,7 +175,10 @@ export function isValidDate(input: unknown): boolean {
  * @param input - Any date-like value.
  * @param now   - Reference point (defaults to `Date.now()`).
  */
-export function isDateInPast(input: unknown, now: number = Date.now()): boolean {
+export function isDateInPast(
+  input: unknown,
+  now: number = Date.now()
+): boolean {
   const { date, isValid } = parseDate(input);
   return isValid && date!.getTime() < now;
 }
@@ -239,10 +240,7 @@ export function formatDate(
  * Useful for table cells and compact displays.
  * Returns `fallback` when the input is invalid.
  */
-export function formatShortDate(
-  input: unknown,
-  fallback = 'N/A'
-): string {
+export function formatShortDate(input: unknown, fallback = 'N/A'): string {
   return formatDate(
     input,
     {
@@ -263,10 +261,7 @@ export function formatShortDate(
  *
  * Returns `fallback` when the input is invalid.
  */
-export function formatTimelineDate(
-  input: unknown,
-  fallback = 'N/A'
-): string {
+export function formatTimelineDate(input: unknown, fallback = 'N/A'): string {
   return formatDate(
     input,
     {
@@ -507,10 +502,7 @@ export function parseZonedDateTime(
  * formatZonedDateTime('2025-06-01T12:00', 'America/New_York')
  * // → "Jun 1, 2025, 12:00 PM" (locale-dependent)
  */
-export function formatZonedDateTime(
-  value: unknown,
-  timezone: unknown
-): string {
+export function formatZonedDateTime(value: unknown, timezone: unknown): string {
   if (typeof value !== 'string' || value.trim() === '') return 'Not set';
 
   const isoValue = parseZonedDateTime(value, timezone);

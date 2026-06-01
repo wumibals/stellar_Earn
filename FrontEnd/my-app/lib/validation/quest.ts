@@ -2,7 +2,7 @@ import type {
   QuestFormData,
   QuestCategory,
   QuestDifficulty,
-} from '../types/api.types';
+} from '../types/admin';
 
 export interface ValidationError {
   field: string;

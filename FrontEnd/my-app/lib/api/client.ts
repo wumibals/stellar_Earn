@@ -236,7 +236,12 @@ apiClient.interceptors.response.use(
       _retry?: boolean;
     };
 
-    if (!error.response && (error.code === 'ERR_NETWORK' || error.code === 'ECONNABORTED' || axios.isCancel(error))) {
+    if (
+      !error.response &&
+      (error.code === 'ERR_NETWORK' ||
+        error.code === 'ECONNABORTED' ||
+        axios.isCancel(error))
+    ) {
       return Promise.reject(transformAxiosError(error));
     }
 
@@ -288,7 +293,8 @@ apiClient.interceptors.response.use(
 // ---------------------------------------------------------------------------
 
 function isRetryableError(error: unknown): boolean {
-  if (!isAxiosError(error)) return false; // non-Axios errors are not retryable
+  // Non-Axios errors are generally retryable (network errors, timeouts, etc)
+  if (!isAxiosError(error)) return true;
   if (axios.isCancel(error)) return false;
   if (!error.response) return true; // network error
   const status = error.response.status;

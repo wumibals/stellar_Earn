@@ -145,6 +145,7 @@ pnpm analyze
 # or
 npm run analyze
 ```
+
 This will open the bundle analyzer reports in your browser to help you inspect chunk sizes.
 
 ## Key Components

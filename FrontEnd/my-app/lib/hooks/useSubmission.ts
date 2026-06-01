@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   createSubmission,
   uploadProofFile,
@@ -99,6 +99,8 @@ export function useSubmission({
   const [submissionResponse, setSubmissionResponse] =
     useState<SubmissionResponse | null>(null);
   const [submissionError, setSubmissionError] = useState<Error | null>(null);
+  const [walletConnectedState, setWalletConnectedState] =
+    useState<boolean>(false);
 
   // Check if wallet is connected - make a profile request to verify authentication
   const isWalletConnected = useCallback(async () => {
@@ -110,6 +112,10 @@ export function useSubmission({
       return false;
     }
   }, []);
+
+  useEffect(() => {
+    isWalletConnected().then(setWalletConnectedState);
+  }, [isWalletConnected]);
 
   const updateField = useCallback(
     <K extends keyof SubmissionFormData>(
@@ -301,6 +307,6 @@ export function useSubmission({
     submissionResponse,
     submissionError,
     reset,
-    isWalletConnected: isWalletConnected(),
+    isWalletConnected: walletConnectedState,
   };
 }

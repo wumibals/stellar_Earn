@@ -4,10 +4,10 @@ import { ReactNode, useEffect, useState } from 'react';
 
 /**
  * ClientOnly Component
- * 
+ *
  * Ensures that content is only rendered on the client, preventing hydration mismatches.
  * This component suppresses hydration warnings and renders nothing on the server.
- * 
+ *
  * Usage:
  * ```
  * <ClientOnly>

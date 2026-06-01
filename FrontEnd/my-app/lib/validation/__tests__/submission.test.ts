@@ -10,7 +10,10 @@ import {
   MAX_FILE_SIZE,
   MAX_INLINE_FILE_SIZE,
 } from '../submission';
-import type { CreateSubmissionRequest, ProofPayload } from '@/lib/types/api.types';
+import type {
+  CreateSubmissionRequest,
+  ProofPayload,
+} from '@/lib/types/api.types';
 
 const VALID_LINK = 'https://example.com/proof.png';
 const VALID_TEXT = 'This is valid proof text for the quest submission.';
@@ -152,9 +155,9 @@ describe('validateProofPayload', () => {
       fileContent: 'aGVsbG8=',
     });
     expect(result.isValid).toBe(false);
-    expect(result.errors.some((error) => error.field === 'proof.fileSize')).toBe(
-      true
-    );
+    expect(
+      result.errors.some((error) => error.field === 'proof.fileSize')
+    ).toBe(true);
   });
 
   test('rejects disallowed file type', () => {
@@ -166,9 +169,9 @@ describe('validateProofPayload', () => {
       fileContent: 'aGVsbG8=',
     });
     expect(result.isValid).toBe(false);
-    expect(result.errors.some((error) => error.field === 'proof.fileType')).toBe(
-      true
-    );
+    expect(
+      result.errors.some((error) => error.field === 'proof.fileType')
+    ).toBe(true);
   });
 
   test('rejects inline file content above inline size limit', () => {

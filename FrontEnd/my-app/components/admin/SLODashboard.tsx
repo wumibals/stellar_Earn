@@ -78,7 +78,9 @@ export function SLODashboard() {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">SLO Dashboard</h1>
         <div className="flex items-center gap-2">
-          <span className={`text-lg font-semibold ${getStatusColor(report.overallStatus)}`}>
+          <span
+            className={`text-lg font-semibold ${getStatusColor(report.overallStatus)}`}
+          >
             {report.overallStatus.toUpperCase()}
           </span>
         </div>
@@ -87,7 +89,10 @@ export function SLODashboard() {
       {alerts.length > 0 && (
         <div className="space-y-2">
           {alerts.map((alert, index) => (
-            <div key={index} className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-lg">
+            <div
+              key={index}
+              className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-lg"
+            >
               <div className="font-medium">{alert}</div>
             </div>
           ))}
@@ -95,62 +100,88 @@ export function SLODashboard() {
       )}
 
       <div className="grid gap-6 md:grid-cols-3">
-        <div className={`border rounded-lg p-6 ${getStatusBgColor(report.errorRate.status)}`}>
+        <div
+          className={`border rounded-lg p-6 ${getStatusBgColor(report.errorRate.status)}`}
+        >
           <h2 className="text-xl font-semibold mb-4">Error Rate</h2>
           <div className="space-y-4">
             <div>
               <div className="text-sm text-gray-600">Current</div>
-              <div className={`text-2xl font-bold ${getStatusColor(report.errorRate.status)}`}>
+              <div
+                className={`text-2xl font-bold ${getStatusColor(report.errorRate.status)}`}
+              >
                 {formatPercent(report.errorRate.current)}
               </div>
             </div>
             <div>
               <div className="text-sm text-gray-600">Target</div>
-              <div className="text-lg">{formatPercent(report.errorRate.target)}</div>
+              <div className="text-lg">
+                {formatPercent(report.errorRate.target)}
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-600">Trend:</span>
-              <span className="font-medium">{getTrendIcon(report.errorRate.trend)} {report.errorRate.trend}</span>
+              <span className="font-medium">
+                {getTrendIcon(report.errorRate.trend)} {report.errorRate.trend}
+              </span>
             </div>
           </div>
         </div>
 
-        <div className={`border rounded-lg p-6 ${getStatusBgColor(report.p95LoadTime.status)}`}>
+        <div
+          className={`border rounded-lg p-6 ${getStatusBgColor(report.p95LoadTime.status)}`}
+        >
           <h2 className="text-xl font-semibold mb-4">p95 Load Time</h2>
           <div className="space-y-4">
             <div>
               <div className="text-sm text-gray-600">Current</div>
-              <div className={`text-2xl font-bold ${getStatusColor(report.p95LoadTime.status)}`}>
+              <div
+                className={`text-2xl font-bold ${getStatusColor(report.p95LoadTime.status)}`}
+              >
                 {formatMs(report.p95LoadTime.current)}
               </div>
             </div>
             <div>
               <div className="text-sm text-gray-600">Target</div>
-              <div className="text-lg">{formatMs(report.p95LoadTime.target)}</div>
+              <div className="text-lg">
+                {formatMs(report.p95LoadTime.target)}
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-600">Trend:</span>
-              <span className="font-medium">{getTrendIcon(report.p95LoadTime.trend)} {report.p95LoadTime.trend}</span>
+              <span className="font-medium">
+                {getTrendIcon(report.p95LoadTime.trend)}{' '}
+                {report.p95LoadTime.trend}
+              </span>
             </div>
           </div>
         </div>
 
-        <div className={`border rounded-lg p-6 ${getStatusBgColor(report.testFlakeRate.status)}`}>
+        <div
+          className={`border rounded-lg p-6 ${getStatusBgColor(report.testFlakeRate.status)}`}
+        >
           <h2 className="text-xl font-semibold mb-4">Test Flake Rate</h2>
           <div className="space-y-4">
             <div>
               <div className="text-sm text-gray-600">Current</div>
-              <div className={`text-2xl font-bold ${getStatusColor(report.testFlakeRate.status)}`}>
+              <div
+                className={`text-2xl font-bold ${getStatusColor(report.testFlakeRate.status)}`}
+              >
                 {formatPercent(report.testFlakeRate.current)}
               </div>
             </div>
             <div>
               <div className="text-sm text-gray-600">Target</div>
-              <div className="text-lg">{formatPercent(report.testFlakeRate.target)}</div>
+              <div className="text-lg">
+                {formatPercent(report.testFlakeRate.target)}
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-600">Trend:</span>
-              <span className="font-medium">{getTrendIcon(report.testFlakeRate.trend)} {report.testFlakeRate.trend}</span>
+              <span className="font-medium">
+                {getTrendIcon(report.testFlakeRate.trend)}{' '}
+                {report.testFlakeRate.trend}
+              </span>
             </div>
           </div>
         </div>

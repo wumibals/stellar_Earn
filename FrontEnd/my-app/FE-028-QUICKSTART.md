@@ -1,6 +1,7 @@
 # FE-028: Quick Start Guide
 
 ## Overview
+
 This guide provides quick examples for using the new error boundary components and hooks for handling API bootstrap failures.
 
 ## Installation
@@ -34,10 +35,10 @@ import { useAPIBootstrap } from '@/lib/hooks/useAPIBootstrap';
 import { FeaturedQuestsSkeleton } from '@/components/homepage/SkeletonLoaders';
 
 function DataComponent() {
-  const { data, loading, error, retry } = useAPIBootstrap(
-    () => yourApiCall(),
-    { retries: 3, componentName: 'DataComponent' }
-  );
+  const { data, loading, error, retry } = useAPIBootstrap(() => yourApiCall(), {
+    retries: 3,
+    componentName: 'DataComponent',
+  });
 
   if (loading) return <FeaturedQuestsSkeleton />;
   if (error) return <ErrorUI error={error} onRetry={retry} />;
@@ -58,10 +59,7 @@ const CustomFallback = ({ error, resetError, componentName }) => (
 
 export default function Widget() {
   return (
-    <APIBootstrapErrorBoundary
-      componentName="Widget"
-      fallback={CustomFallback}
-    >
+    <APIBootstrapErrorBoundary componentName="Widget" fallback={CustomFallback}>
       <YourComponent />
     </APIBootstrapErrorBoundary>
   );
@@ -80,10 +78,10 @@ const { data, loading, error, retry, reset, isRecoverable } = useAPIBootstrap(
     return response.json();
   },
   {
-    retries: 5,                    // Number of automatic retries
-    initialDelay: 1000,            // Starting delay in ms
-    timeout: 30000,                // Request timeout
-    componentName: 'DataWidget',   // For logging
+    retries: 5, // Number of automatic retries
+    initialDelay: 1000, // Starting delay in ms
+    timeout: 30000, // Request timeout
+    componentName: 'DataWidget', // For logging
     onError: (error) => {
       console.error('API Error:', error);
       // Send to analytics, etc.
@@ -98,16 +96,17 @@ const { data, loading, error, retry, reset, isRecoverable } = useAPIBootstrap(
 
 ```typescript
 interface APIBootstrapErrorBoundaryProps {
-  children: React.ReactNode;              // Required: Component to wrap
-  componentName: string;                  // Required: Component name for logging
-  fallback?: React.ComponentType<{        // Optional: Custom error UI
+  children: React.ReactNode; // Required: Component to wrap
+  componentName: string; // Required: Component name for logging
+  fallback?: React.ComponentType<{
+    // Optional: Custom error UI
     error: Error;
     resetError: () => void;
     componentName: string;
   }>;
-  onError?: (error: Error, componentName: string) => void;  // Optional: Error callback
-  retryable?: boolean;                    // Optional: Allow retries
-  showDetails?: boolean;                  // Optional: Show error details in dev
+  onError?: (error: Error, componentName: string) => void; // Optional: Error callback
+  retryable?: boolean; // Optional: Allow retries
+  showDetails?: boolean; // Optional: Show error details in dev
 }
 ```
 
@@ -115,27 +114,32 @@ interface APIBootstrapErrorBoundaryProps {
 
 ```typescript
 const {
-  data,              // T | null - The fetched data
-  loading,           // boolean - Loading state
-  error,             // Error | null - Error if failed
-  isRetrying,        // boolean - Currently retrying
-  retryCount,        // number - Number of manual retries
-  retry,             // () => Promise<void> - Manual retry function
-  reset,             // () => void - Reset to initial state
-  isRecoverable,     // boolean - Error is recoverable
-  canRetry,          // boolean - Can retry now
+  data, // T | null - The fetched data
+  loading, // boolean - Loading state
+  error, // Error | null - Error if failed
+  isRetrying, // boolean - Currently retrying
+  retryCount, // number - Number of manual retries
+  retry, // () => Promise<void> - Manual retry function
+  reset, // () => void - Reset to initial state
+  isRecoverable, // boolean - Error is recoverable
+  canRetry, // boolean - Can retry now
 } = useAPIBootstrap(fetchFn, options);
 ```
 
 ## Common Patterns
 
 ### Pattern 1: API Data Fetch
+
 ```tsx
 function QuestsList() {
-  const { data: quests, loading, error, retry } = useAPIBootstrap(
-    () => getQuests({ limit: 10 }),
-    { componentName: 'QuestsList' }
-  );
+  const {
+    data: quests,
+    loading,
+    error,
+    retry,
+  } = useAPIBootstrap(() => getQuests({ limit: 10 }), {
+    componentName: 'QuestsList',
+  });
 
   if (loading) return <Skeleton />;
   if (error) return <ErrorMessage error={error} onRetry={retry} />;
@@ -144,6 +148,7 @@ function QuestsList() {
 ```
 
 ### Pattern 2: Nested Error Boundaries
+
 ```tsx
 function Page() {
   return (
@@ -162,23 +167,21 @@ function Page() {
 ```
 
 ### Pattern 3: Error Callback & Logging
+
 ```tsx
 function TrackedComponent() {
-  const { data, error } = useAPIBootstrap(
-    () => fetchData(),
-    {
-      componentName: 'TrackedComponent',
-      onError: (error) => {
-        // Send to analytics
-        analytics.logError({
-          type: 'bootstrap_error',
-          component: 'TrackedComponent',
-          message: error.message,
-          timestamp: new Date(),
-        });
-      },
-    }
-  );
+  const { data, error } = useAPIBootstrap(() => fetchData(), {
+    componentName: 'TrackedComponent',
+    onError: (error) => {
+      // Send to analytics
+      analytics.logError({
+        type: 'bootstrap_error',
+        component: 'TrackedComponent',
+        message: error.message,
+        timestamp: new Date(),
+      });
+    },
+  });
 
   // Component logic...
 }
@@ -187,6 +190,7 @@ function TrackedComponent() {
 ## Real-World Example: FeaturedQuests
 
 See `components/homepage/FeaturedQuests.tsx` for a complete implementation example that demonstrates:
+
 - Error boundary wrapper
 - Hook-based error handling
 - Loading skeleton display
@@ -197,6 +201,7 @@ See `components/homepage/FeaturedQuests.tsx` for a complete implementation examp
 ## Troubleshooting
 
 ### Error Not Being Caught?
+
 Make sure the error boundary wraps the component that throws the error.
 
 ```tsx
@@ -213,6 +218,7 @@ Make sure the error boundary wraps the component that throws the error.
 ```
 
 ### Infinite Retry Loop?
+
 Set `retries` to a reasonable number:
 
 ```tsx
@@ -224,11 +230,12 @@ useAPIBootstrap(fetchFn, { retries: 3 });
 ```
 
 ### Timeout Too Short?
+
 Increase the timeout for slow APIs:
 
 ```tsx
-useAPIBootstrap(fetchFn, { 
-  timeout: 60000  // 60 seconds for slow endpoints
+useAPIBootstrap(fetchFn, {
+  timeout: 60000, // 60 seconds for slow endpoints
 });
 ```
 
@@ -243,6 +250,7 @@ useAPIBootstrap(fetchFn, {
 ## Testing
 
 For test examples, see:
+
 - `components/error/APIBootstrapErrorBoundary.test.tsx`
 - `lib/hooks/useAPIBootstrap.test.ts`
 - `components/homepage/FeaturedQuests.test.tsx`
@@ -267,6 +275,7 @@ For test examples, see:
 ## Support
 
 For questions or issues:
+
 1. Check the implementation documentation
 2. Review test examples
 3. Look at the FeaturedQuests implementation

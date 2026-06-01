@@ -22,7 +22,8 @@ export function BootstrapErrorFallback({
   retryCount = 0,
   showDetails = false,
 }: BootstrapErrorFallbackProps) {
-  const isNetworkError = error.message?.toLowerCase().includes('network') ||
+  const isNetworkError =
+    error.message?.toLowerCase().includes('network') ||
     error.message?.toLowerCase().includes('failed to fetch');
   const isTimeoutError = error.message?.toLowerCase().includes('timeout');
 
@@ -122,7 +123,9 @@ export function BootstrapErrorFallback({
                   {error.stack && (
                     <div>
                       <strong>Stack:</strong>
-                      <pre className="mt-1 whitespace-pre-wrap break-words">{error.stack}</pre>
+                      <pre className="mt-1 whitespace-pre-wrap break-words">
+                        {error.stack}
+                      </pre>
                     </div>
                   )}
                 </div>
@@ -154,7 +157,7 @@ export function BootstrapErrorFallback({
               </button>
 
               <button
-                onClick={() => window.location.href = '/'}
+                onClick={() => (window.location.href = '/')}
                 className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-red-800/50 bg-red-900/20 px-6 py-2.5 text-sm font-semibold text-red-200 transition-all duration-200 hover:bg-red-900/40 active:bg-red-800/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-red-950/50"
                 aria-label="Navigate to homepage"
               >
@@ -179,7 +182,10 @@ export function BootstrapErrorFallback({
             {/* Retry attempts indicator */}
             {retryCount > 0 && (
               <div className="mt-4 flex items-center gap-2 text-xs text-red-400">
-                <div className="h-1.5 w-1.5 rounded-full bg-red-400" aria-hidden="true" />
+                <div
+                  className="h-1.5 w-1.5 rounded-full bg-red-400"
+                  aria-hidden="true"
+                />
                 <span>Retry attempts: {retryCount}</span>
               </div>
             )}
@@ -188,7 +194,9 @@ export function BootstrapErrorFallback({
 
         {/* Recovery tips */}
         <div className="mt-6 rounded-lg bg-red-900/20 border border-red-800/30 p-4">
-          <h4 className="text-xs font-semibold text-red-300 mb-2">What you can try:</h4>
+          <h4 className="text-xs font-semibold text-red-300 mb-2">
+            What you can try:
+          </h4>
           <ul className="space-y-1.5 text-xs text-red-300/80">
             <li className="flex items-start gap-2">
               <span className="text-red-400 mt-0.5">•</span>

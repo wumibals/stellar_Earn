@@ -1,4 +1,10 @@
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from '@testing-library/react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import React from 'react';
 import FeaturedQuests from '@/components/homepage/FeaturedQuests';
@@ -40,12 +46,16 @@ describe('FeaturedQuests - Error Boundary and Timeout Integration', () => {
 
   it('should provide retry functionality in generic error state', async () => {
     const mockError = new Error('API request failed');
-    mockGetQuests.mockRejectedValueOnce(mockError).mockResolvedValueOnce({ quests: [] });
+    mockGetQuests
+      .mockRejectedValueOnce(mockError)
+      .mockResolvedValueOnce({ quests: [] });
 
     render(<FeaturedQuests />);
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /Try Again/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: /Try Again/i })
+      ).toBeInTheDocument();
     });
 
     const retryBtn = screen.getByRole('button', { name: /Try Again/i });
@@ -57,7 +67,11 @@ describe('FeaturedQuests - Error Boundary and Timeout Integration', () => {
   });
 
   it('should display timeout-specific amber UI on request timeout', async () => {
-    const timeoutError = createAppError('Request timed out', ERROR_CODES.TIMEOUT_ERROR, 0);
+    const timeoutError = createAppError(
+      'Request timed out',
+      ERROR_CODES.TIMEOUT_ERROR,
+      0
+    );
     mockGetQuests.mockRejectedValue(timeoutError);
 
     render(<FeaturedQuests />);
@@ -68,21 +82,33 @@ describe('FeaturedQuests - Error Boundary and Timeout Integration', () => {
       // Amber UI elements are visible
       expect(screen.getByText('Request Timed Out')).toBeInTheDocument();
       expect(screen.getByText(/standard 30-second limit/i)).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /Retry with Extended Timeout/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: /Retry with Extended Timeout/i })
+      ).toBeInTheDocument();
     });
   });
 
   it('should support double timeout retry action and invoke getQuests with custom timeout', async () => {
-    const timeoutError = createAppError('Request timed out', ERROR_CODES.TIMEOUT_ERROR, 0);
-    mockGetQuests.mockRejectedValueOnce(timeoutError).mockResolvedValueOnce({ quests: [] });
+    const timeoutError = createAppError(
+      'Request timed out',
+      ERROR_CODES.TIMEOUT_ERROR,
+      0
+    );
+    mockGetQuests
+      .mockRejectedValueOnce(timeoutError)
+      .mockResolvedValueOnce({ quests: [] });
 
     render(<FeaturedQuests />);
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /Retry with Extended Timeout/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: /Retry with Extended Timeout/i })
+      ).toBeInTheDocument();
     });
 
-    const extendedBtn = screen.getByRole('button', { name: /Retry with Extended Timeout/i });
+    const extendedBtn = screen.getByRole('button', {
+      name: /Retry with Extended Timeout/i,
+    });
     fireEvent.click(extendedBtn);
 
     await waitFor(() => {
@@ -97,17 +123,25 @@ describe('FeaturedQuests - Error Boundary and Timeout Integration', () => {
   });
 
   it('should run auto-retry countdown and auto-trigger refetch when auto-retry is toggled', async () => {
-    const timeoutError = createAppError('Request timed out', ERROR_CODES.TIMEOUT_ERROR, 0);
-    mockGetQuests.mockRejectedValueOnce(timeoutError).mockResolvedValueOnce({ quests: [] });
+    const timeoutError = createAppError(
+      'Request timed out',
+      ERROR_CODES.TIMEOUT_ERROR,
+      0
+    );
+    mockGetQuests
+      .mockRejectedValueOnce(timeoutError)
+      .mockResolvedValueOnce({ quests: [] });
 
     render(<FeaturedQuests />);
 
     await waitFor(() => {
-      expect(screen.getByLabelText(/Auto-retry on timeout/i)).toBeInTheDocument();
+      expect(
+        screen.getByLabelText(/Auto-retry on timeout/i)
+      ).toBeInTheDocument();
     });
 
     const checkbox = screen.getByLabelText(/Auto-retry on timeout/i);
-    
+
     vi.useFakeTimers();
     try {
       fireEvent.click(checkbox);
@@ -132,16 +166,24 @@ describe('FeaturedQuests - Error Boundary and Timeout Integration', () => {
   });
 
   it('should display network diagnostic tips collapsible section', async () => {
-    const timeoutError = createAppError('Request timed out', ERROR_CODES.TIMEOUT_ERROR, 0);
+    const timeoutError = createAppError(
+      'Request timed out',
+      ERROR_CODES.TIMEOUT_ERROR,
+      0
+    );
     mockGetQuests.mockRejectedValue(timeoutError);
 
     render(<FeaturedQuests />);
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /Network & Diagnosis Tips/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: /Network & Diagnosis Tips/i })
+      ).toBeInTheDocument();
     });
 
-    const toggleBtn = screen.getByRole('button', { name: /Network & Diagnosis Tips/i });
+    const toggleBtn = screen.getByRole('button', {
+      name: /Network & Diagnosis Tips/i,
+    });
     // Expand tips
     fireEvent.click(toggleBtn);
 

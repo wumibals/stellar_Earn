@@ -8,7 +8,10 @@ const { validateTsconfigPaths } = require('../scripts/validate-path-aliases');
 function createTempProject(tsconfigContents: object) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'alias-validation-'));
   fs.mkdirSync(root, { recursive: true });
-  fs.writeFileSync(path.join(root, 'tsconfig.json'), JSON.stringify(tsconfigContents, null, 2));
+  fs.writeFileSync(
+    path.join(root, 'tsconfig.json'),
+    JSON.stringify(tsconfigContents, null, 2)
+  );
   return root;
 }
 
@@ -27,7 +30,9 @@ describe('validateTsconfigPaths', () => {
       },
     });
 
-    const result = validateTsconfigPaths(path.join(projectRoot, 'tsconfig.json'));
+    const result = validateTsconfigPaths(
+      path.join(projectRoot, 'tsconfig.json')
+    );
     cleanupDirectory(projectRoot);
 
     expect(result.errors).toHaveLength(0);
@@ -43,7 +48,9 @@ describe('validateTsconfigPaths', () => {
       },
     });
 
-    const result = validateTsconfigPaths(path.join(projectRoot, 'tsconfig.json'));
+    const result = validateTsconfigPaths(
+      path.join(projectRoot, 'tsconfig.json')
+    );
     cleanupDirectory(projectRoot);
 
     expect(result.errors).toHaveLength(1);
@@ -59,7 +66,9 @@ describe('validateTsconfigPaths', () => {
       },
     });
 
-    const result = validateTsconfigPaths(path.join(projectRoot, 'tsconfig.json'));
+    const result = validateTsconfigPaths(
+      path.join(projectRoot, 'tsconfig.json')
+    );
     cleanupDirectory(projectRoot);
 
     expect(result.errors).toHaveLength(1);

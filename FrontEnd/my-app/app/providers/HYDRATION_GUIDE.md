@@ -41,11 +41,13 @@ We implemented a three-layer approach to safe hydration:
 **Purpose**: Creates a hydration boundary that prevents all child content from rendering on the server.
 
 **How it works**:
+
 - Server render: Returns `null` or fallback
 - Client render: Sets `isHydrated` to `true` in a `useEffect`, then renders children
 - React suppresses hydration warnings for this boundary
 
 **Benefits**:
+
 - Simplest solution for wrapping providers
 - Prevents hydration mismatches entirely
 - Can be combined with other patterns
@@ -61,6 +63,7 @@ We implemented a three-layer approach to safe hydration:
 **Purpose**: Ensures content only renders on the client side.
 
 **When to use**:
+
 - For single components or small sections
 - When you want to show a loading state during hydration
 - For optional enhancements that don't affect SEO
@@ -77,8 +80,7 @@ function useSafeThemeState() {
   useEffect(() => {
     try {
       const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-      const initialTheme = // ... determine theme
-      setThemeState(initialTheme);
+      const initialTheme = setThemeState(initialTheme); // ... determine theme
     } catch (err) {
       console.warn('Failed to read theme preference:', err);
     }
@@ -90,6 +92,7 @@ function useSafeThemeState() {
 ```
 
 **Key principles**:
+
 - Initialize state with a server-safe default value
 - Access browser APIs only in `useEffect`
 - Guard effects with `isHydrated` flag
@@ -138,12 +141,15 @@ The [RootProviders](./RootProviders.tsx) component combines all client-only prov
 The root layout includes:
 
 1. **Inline Theme Script**: Applies theme before React hydrates
+
    ```typescript
    <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
    ```
+
    This prevents a flash of unstyled content.
 
 2. **suppressHydrationWarning**: Allows theme script to modify DOM before React
+
    ```typescript
    <html lang="en" suppressHydrationWarning>
    ```
@@ -172,11 +178,13 @@ The [ThemeProvider](./ThemeProvider.tsx) has been refactored to:
 When creating a new provider that uses browser APIs:
 
 1. **Initialize with Safe Default**
+
    ```typescript
    const [value, setValue] = useState<T>(DEFAULT_VALUE);
    ```
 
 2. **Defer Browser API Access**
+
    ```typescript
    useEffect(() => {
      const val = localStorage.getItem('key');
@@ -185,13 +193,14 @@ When creating a new provider that uses browser APIs:
    ```
 
 3. **Guard Effects with Hydration Check**
+
    ```typescript
    const [isHydrated, setIsHydrated] = useState(false);
-   
+
    useEffect(() => {
      setIsHydrated(true);
    }, []);
-   
+
    useEffect(() => {
      if (!isHydrated) return;
      // Access browser APIs here
@@ -248,6 +257,7 @@ Tests are located in [tests/providers/](../../tests/providers/) and verify:
 - ✅ Errors are handled gracefully
 
 Run tests with:
+
 ```bash
 npm run test:unit
 ```
@@ -257,6 +267,7 @@ npm run test:unit
 To verify hydration works correctly:
 
 1. **Check Console for Warnings**
+
    ```bash
    # No hydration mismatch warnings should appear
    npm run dev
@@ -297,12 +308,14 @@ If you encounter hydration warnings:
 ## Performance Considerations
 
 ### Pros
+
 - ✅ No hydration mismatch warnings
 - ✅ Better SEO (non-client content is rendered on server)
 - ✅ Faster time to interactive (less client-side computation)
 - ✅ Graceful degradation (works without JavaScript)
 
 ### Cons
+
 - ⚠️ Theme flashes before client script loads (mitigated by inline script)
 - ⚠️ Dynamic content delayed until hydration
 - ⚠️ Slight increase in HTML size from inline scripts
@@ -317,6 +330,7 @@ If you encounter hydration warnings:
 ## Browser Compatibility
 
 This implementation is compatible with:
+
 - ✅ All modern browsers (Chrome, Firefox, Safari, Edge)
 - ✅ Older browsers (IE 11+ if you include polyfills)
 - ✅ Mobile browsers

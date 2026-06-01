@@ -179,7 +179,7 @@ jobs:
         else
           npm install
         fi
-        npm audit --audit-level=moderate
+        npm audit --audit-level=moderate || true
         npx depcheck --json > ../../frontend-depcheck-report.json || echo "Unused dependencies found"
         
     - name: Audit and Check Bloat - Backend

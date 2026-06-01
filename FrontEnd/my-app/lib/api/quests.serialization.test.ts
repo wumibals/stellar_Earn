@@ -30,8 +30,17 @@ import type {
 // Helpers
 // ---------------------------------------------------------------------------
 
-const VALID_STATUSES: QuestStatus[] = ['Active', 'Paused', 'Completed', 'Expired'];
-const VALID_DIFFICULTIES: QuestDifficulty[] = ['beginner', 'intermediate', 'advanced'];
+const VALID_STATUSES: QuestStatus[] = [
+  'Active',
+  'Paused',
+  'Completed',
+  'Expired',
+];
+const VALID_DIFFICULTIES: QuestDifficulty[] = [
+  'beginner',
+  'intermediate',
+  'advanced',
+];
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/;
 
 const API_BASE =
@@ -223,15 +232,24 @@ describe('QuestResponse – minimal fixture (only required fields)', () => {
   });
 
   it('handles absent optional fields without error', () => {
-    expect(quest.difficulty === undefined || quest.difficulty === null).toBe(true);
+    expect(quest.difficulty === undefined || quest.difficulty === null).toBe(
+      true
+    );
     expect(quest.xpReward === undefined || quest.xpReward === null).toBe(true);
     expect(quest.deadline === undefined || quest.deadline === null).toBe(true);
-    expect(quest.requirements === undefined || quest.requirements === null).toBe(true);
+    expect(
+      quest.requirements === undefined || quest.requirements === null
+    ).toBe(true);
     expect(quest.tags === undefined || quest.tags === null).toBe(true);
     expect(quest.skills === undefined || quest.skills === null).toBe(true);
     expect(quest.creator === undefined || quest.creator === null).toBe(true);
-    expect(quest.maxParticipants === undefined || quest.maxParticipants === null).toBe(true);
-    expect(quest.currentParticipants === undefined || quest.currentParticipants === null).toBe(true);
+    expect(
+      quest.maxParticipants === undefined || quest.maxParticipants === null
+    ).toBe(true);
+    expect(
+      quest.currentParticipants === undefined ||
+        quest.currentParticipants === null
+    ).toBe(true);
   });
 
   it('rewardAmount can be a number type', () => {
@@ -555,12 +573,16 @@ describe('getQuests – integration via MSW fixture', () => {
 describe('Quest serialization – edge cases', () => {
   it('approvedSubmissions never exceeds totalSubmissions', () => {
     const quest = questFullFixture as QuestResponse;
-    expect(quest.approvedSubmissions).toBeLessThanOrEqual(quest.totalSubmissions);
+    expect(quest.approvedSubmissions).toBeLessThanOrEqual(
+      quest.totalSubmissions
+    );
   });
 
   it('rejectedSubmissions never exceeds totalSubmissions', () => {
     const quest = questFullFixture as QuestResponse;
-    expect(quest.rejectedSubmissions).toBeLessThanOrEqual(quest.totalSubmissions);
+    expect(quest.rejectedSubmissions).toBeLessThanOrEqual(
+      quest.totalSubmissions
+    );
   });
 
   it('currentParticipants never exceeds maxParticipants when both are present', () => {
@@ -571,7 +593,9 @@ describe('Quest serialization – edge cases', () => {
       quest.currentParticipants !== undefined &&
       quest.currentParticipants !== null
     ) {
-      expect(quest.currentParticipants).toBeLessThanOrEqual(quest.maxParticipants);
+      expect(quest.currentParticipants).toBeLessThanOrEqual(
+        quest.maxParticipants
+      );
     }
   });
 

@@ -14,6 +14,7 @@ import { QuestStatus, QuestDifficulty } from '@/lib/types/quest';
 import type { Quest } from '@/lib/types/quest';
 import LazyLoad from '@/components/ui/LazyLoad';
 import { ComponentErrorBoundary } from '@/components/error/ErrorBoundary';
+import { Skeleton } from '@/components/ui/Skeleton';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { useOnlineStatus } from '@/lib/hooks/useOnlineStatus';
 
@@ -242,7 +243,7 @@ function QuestsContent() {
           <div className="mb-6" data-onboarding="quest-board-list">
             <LazyLoad>
               <QuestList
-                quests={paginatedQuests}
+                quests={paginatedQuests as unknown as Quest[]}
                 isLoading={false}
                 error={null}
                 onQuestClick={handleQuestClick}
@@ -273,26 +274,20 @@ export default function QuestsPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex h-screen bg-white dark:bg-zinc-900">
-          <Sidebar />
-          <main className="flex-1 overflow-y-auto">
-            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-              <div className="mb-8">
-                <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50">
-                  Quest Board
-                </h1>
-              </div>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {[...Array(6)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-64 animate-pulse rounded-lg bg-zinc-200 dark:bg-zinc-800"
-                  />
-                ))}
-              </div>
+        <AppLayout>
+          <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <div className="mb-6 lg:mb-8">
+              <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50">
+                Quest Board
+              </h1>
             </div>
-          </main>
-        </div>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[...Array(6)].map((_, i) => (
+                <Skeleton.Card key={i} />
+              ))}
+            </div>
+          </div>
+        </AppLayout>
       }
     >
       <QuestsContent />

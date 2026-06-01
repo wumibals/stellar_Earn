@@ -32,7 +32,10 @@ export function ClaimRewards() {
   const handleClaim = async () => {
     if (pendingRewards.length === 0) return;
 
-    const totalAmount = pendingRewards.reduce((sum, r) => sum + r.reward, 0);
+    const totalAmount = pendingRewards.reduce(
+      (sum, r) => sum + (Number(r.quest?.rewardAmount) || 0),
+      0
+    );
     setIsModalOpen(true);
 
     // We'll use a combined ID for "all" or just the first one for simulation

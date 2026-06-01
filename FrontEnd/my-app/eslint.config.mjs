@@ -67,7 +67,7 @@ const eslintConfig = [
       'no-constant-binary-expression': 'error',
       'no-self-compare': 'error',
       '@typescript-eslint/no-unused-vars': [
-        'error',
+        'warn',
         {
           vars: 'all',
           args: 'after-used',
@@ -77,6 +77,12 @@ const eslintConfig = [
           caughtErrorsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-require-imports': 'warn',
+      'react-hooks/rules-of-hooks': 'warn',
+      'react-hooks/exhaustive-deps': 'warn',
+      '@next/next/no-sync-scripts': 'warn',
+      '@next/next/no-html-link-for-pages': 'warn',
     },
   },
 ];

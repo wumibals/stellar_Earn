@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import apiClient from '../api/client';
+import { apiClient } from '../api/client';
 
 export function useNetworkStatus() {
   const [isOnline, setIsOnline] = useState<boolean>(

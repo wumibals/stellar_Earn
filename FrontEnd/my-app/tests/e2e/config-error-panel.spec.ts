@@ -34,7 +34,9 @@ test.describe('Config Error Panel - Visual Tests', () => {
     });
 
     // Wait for the error panel to be fully rendered
-    const errorPanel = page.locator('[role="region"][aria-label="Configuration Error"]');
+    const errorPanel = page.locator(
+      '[role="region"][aria-label="Configuration Error"]'
+    );
     await expect(errorPanel).toBeVisible({ timeout: 5000 });
 
     // Visual snapshot of the full error panel
@@ -251,9 +253,7 @@ test.describe('Config Error Panel - Visual Tests', () => {
   /**
    * Test: Multiple error variables display correctly in list
    */
-  test('displays multiple missing environment variables', async ({
-    page,
-  }) => {
+  test('displays multiple missing environment variables', async ({ page }) => {
     await page.goto('/error-panel-demo');
 
     const messageBox = page.locator('pre').first();
@@ -290,9 +290,7 @@ test.describe('Config Error Panel - Visual Tests', () => {
   /**
    * Test: Error panel has appropriate accessibility attributes
    */
-  test('error panel has proper accessibility attributes', async ({
-    page,
-  }) => {
+  test('error panel has proper accessibility attributes', async ({ page }) => {
     await page.goto('/error-panel-demo');
 
     const errorPanel = page.locator('[role="region"]').first();
@@ -305,8 +303,8 @@ test.describe('Config Error Panel - Visual Tests', () => {
     const heading = page.getByRole('heading', {
       name: /configuration error/i,
     });
-    const headingLevel = await heading.evaluate(
-      (el) => el.tagName.toLowerCase()
+    const headingLevel = await heading.evaluate((el) =>
+      el.tagName.toLowerCase()
     );
     expect(['h1', 'h2', 'h3']).toContain(headingLevel);
   });
@@ -326,7 +324,7 @@ test.describe('Config Error Panel - Visual Comparison Tests', () => {
     await expect(errorPanel).toBeVisible();
 
     // Compare against baseline screenshot
-    await expect(errorPanel).toMatchSnapshot('config-error-panel.png', {
+    await expect(errorPanel).toHaveScreenshot('config-error-panel.png', {
       maxDiffPixels: 100,
       threshold: 0.2, // Allow 20% difference
     });

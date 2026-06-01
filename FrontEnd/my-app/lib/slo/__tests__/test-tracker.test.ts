@@ -31,7 +31,7 @@ describe('TestFlakeTracker', () => {
         duration: 100,
         file: 'test.spec.ts',
       });
-      
+
       const flaky = testFlakeTracker.getFlakyTests();
       expect(flaky).toHaveLength(0);
     });
@@ -44,7 +44,7 @@ describe('TestFlakeTracker', () => {
         duration: 100,
         file: 'test.spec.ts',
       });
-      
+
       const flaky = testFlakeTracker.getFlakyTests(1);
       expect(flaky).toHaveLength(1);
     });
@@ -57,7 +57,7 @@ describe('TestFlakeTracker', () => {
         duration: 100,
         file: 'test.spec.ts',
       });
-      
+
       const flaky = testFlakeTracker.getFlakyTests(1);
       expect(flaky).toHaveLength(1);
     });
@@ -79,7 +79,7 @@ describe('TestFlakeTracker', () => {
         duration: 100,
         file: 'test.spec.ts',
       });
-      
+
       const flakeRate = testFlakeTracker.getFlakeRateByTest('test1');
       expect(flakeRate).toBe(0.5);
     });
@@ -113,7 +113,7 @@ describe('TestFlakeTracker', () => {
         duration: 100,
         file: 'test.spec.ts',
       });
-      
+
       const flakeRate = testFlakeTracker.getOverallFlakeRate();
       expect(flakeRate).toBeCloseTo(0.667, 2);
     });
@@ -133,10 +133,10 @@ describe('TestFlakeTracker', () => {
         duration: 100,
         file: 'test.spec.ts',
       });
-      
+
       testFlakeTracker.clearResults();
       const flakeRate = testFlakeTracker.getOverallFlakeRate();
-      
+
       expect(flakeRate).toBe(0);
     });
   });

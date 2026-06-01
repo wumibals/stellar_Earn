@@ -121,7 +121,9 @@ export function WalletModal() {
                   }`}
                 >
                   <UserIcon />
-                  <span>{isConnecting ? 'Connecting...' : 'Connect Wallet'}</span>
+                  <span>
+                    {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+                  </span>
                 </button>
               </div>
             </motion.div>

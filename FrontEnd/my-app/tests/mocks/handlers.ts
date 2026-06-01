@@ -24,7 +24,11 @@ const questListResolver = () =>
     },
   });
 
-const questDetailResolver = ({ params }: { params: { id?: string | readonly string[] } }) => {
+const questDetailResolver = ({
+  params,
+}: {
+  params: { id?: string | readonly string[] };
+}) => {
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   return HttpResponse.json({
     data: {

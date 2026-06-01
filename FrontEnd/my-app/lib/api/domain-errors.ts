@@ -58,7 +58,9 @@ export const PAYOUTS_ERRORS: DomainErrorMap = {
 };
 
 export class NetworkUnreachableError extends Error {
-  constructor(message: string = 'Unable to connect to the server. Please check your internet connection.') {
+  constructor(
+    message: string = 'Unable to connect to the server. Please check your internet connection.'
+  ) {
     super(message);
     this.name = 'NetworkUnreachableError';
   }
@@ -77,12 +79,7 @@ export const USERS_ERRORS: DomainErrorMap = {
 };
 
 /** All supported API domains. */
-export type ApiDomain =
-  | 'auth'
-  | 'quests'
-  | 'submissions'
-  | 'payouts'
-  | 'users';
+export type ApiDomain = 'auth' | 'quests' | 'submissions' | 'payouts' | 'users';
 
 /** Registry mapping domain names to their error maps. */
 export const DOMAIN_ERROR_MAPS: Record<ApiDomain, DomainErrorMap> = {

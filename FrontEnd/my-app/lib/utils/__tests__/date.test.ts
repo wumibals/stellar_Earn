@@ -430,9 +430,12 @@ describe('formatDeadlineLabel', () => {
 // ---------------------------------------------------------------------------
 
 describe('isSupportedTimezone', () => {
-  test.each(SUPPORTED_TIMEZONES)('returns true for supported timezone: %s', (tz) => {
-    expect(isSupportedTimezone(tz)).toBe(true);
-  });
+  test.each(SUPPORTED_TIMEZONES)(
+    'returns true for supported timezone: %s',
+    (tz) => {
+      expect(isSupportedTimezone(tz)).toBe(true);
+    }
+  );
 
   test('returns false for an unsupported IANA timezone', () => {
     expect(isSupportedTimezone('America/Chicago')).toBe(false);
@@ -571,8 +574,7 @@ describe('formatZonedDateTime', () => {
 describe('calculateTimeRemaining', () => {
   test('returns correct breakdown for a future deadline', () => {
     // 2 days, 3 hours, 4 minutes, 5 seconds from REF_MS
-    const ms =
-      2 * 86_400_000 + 3 * 3_600_000 + 4 * 60_000 + 5 * 1_000;
+    const ms = 2 * 86_400_000 + 3 * 3_600_000 + 4 * 60_000 + 5 * 1_000;
     const deadline = new Date(REF_MS + ms).toISOString();
     const result = calculateTimeRemaining(deadline, REF_MS);
 

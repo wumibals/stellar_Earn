@@ -12,17 +12,17 @@ import { A11yAnnouncerProvider } from '@/components/a11y/A11yAnnouncer';
 
 /**
  * RootProviders Component
- * 
+ *
  * Combines all client-side providers with safe hydration checks.
  * This ensures:
  * - No hydration mismatches from localStorage/window access
  * - Proper ordering of context providers
  * - Safe initialization of async providers
  * - Better error handling with boundaries
- * 
+ *
  * All providers are wrapped in HydrationBoundary to ensure
  * they only render after client hydration is complete.
- * 
+ *
  * Provider Hierarchy:
  * 1. HydrationBoundary - Prevents hydration mismatches
  * 2. ThemeProvider - Theme management
@@ -46,9 +46,7 @@ export function RootProviders({ children }: RootProvidersProps) {
             <WalletProvider>
               <AuthProvider>
                 <AnalyticsProvider>
-                  <A11yAnnouncerProvider>
-                    {children}
-                  </A11yAnnouncerProvider>
+                  <A11yAnnouncerProvider>{children}</A11yAnnouncerProvider>
                 </AnalyticsProvider>
               </AuthProvider>
             </WalletProvider>

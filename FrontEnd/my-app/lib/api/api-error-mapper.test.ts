@@ -15,14 +15,14 @@ import {
 describe('mapApiError', () => {
   describe('with no domain (generic fallback)', () => {
     it('returns a message for a known status code', () => {
-      expect(mapApiError(400)).toBe('Invalid request. Please check your input.');
+      expect(mapApiError(400)).toBe(
+        'Invalid request. Please check your input.'
+      );
       expect(mapApiError(401)).toBe('You must be signed in to continue.');
       expect(mapApiError(403)).toBe(
         'You do not have permission to perform this action.'
       );
-      expect(mapApiError(404)).toBe(
-        'The requested resource was not found.'
-      );
+      expect(mapApiError(404)).toBe('The requested resource was not found.');
       expect(mapApiError(429)).toBe('Too many requests. Please slow down.');
       expect(mapApiError(500)).toBe(
         'Something went wrong on our end. Please try again later.'

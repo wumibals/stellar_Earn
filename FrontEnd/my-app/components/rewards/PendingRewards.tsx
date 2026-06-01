@@ -7,7 +7,10 @@ interface PendingRewardsProps {
 }
 
 export function PendingRewards({ rewards }: PendingRewardsProps) {
-  const totalPending = rewards.reduce((sum, r) => sum + r.reward, 0);
+  const totalPending = rewards.reduce(
+    (sum, r) => sum + (Number(r.quest?.rewardAmount) || 0),
+    0
+  );
 
   return (
     <div className="space-y-4">
@@ -56,48 +59,53 @@ export function PendingRewards({ rewards }: PendingRewardsProps) {
           className="grid gap-3"
           aria-label={`${rewards.length} claimable reward${rewards.length !== 1 ? 's' : ''}`}
         >
-          {rewards.map((reward) => (
-            <li
-              key={reward.id}
-              className="group flex items-center justify-between p-4 rounded-xl border border-zinc-200 bg-white shadow-sm transition-all hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50"
-              aria-label={`${reward.questTitle}: ${reward.reward} Tokens, approved on ${new Date(reward.submittedAt).toLocaleDateString()}`}
-            >
-              <div className="flex items-center gap-4">
-                <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400"
-                  aria-hidden="true"
-                >
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+          {rewards.map((reward) => {
+            const rewardAmount = Number(reward.quest?.rewardAmount) || 0;
+            const questTitle = reward.quest?.title || 'Unknown Quest';
+            const submittedAt = reward.createdAt;
+
+            return (
+              <li
+                key={reward.id}
+                className="group flex items-center justify-between p-4 rounded-xl border border-zinc-200 bg-white shadow-sm transition-all hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50"
+                aria-label={`${questTitle}: ${rewardAmount} Tokens, approved on ${new Date(submittedAt).toLocaleDateString()}`}
+              >
+                <div className="flex items-center gap-4">
+                  <div
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400"
+                    aria-hidden="true"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                    />
-                  </svg>
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                      {questTitle}
+                    </h4>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      Approved on {new Date(submittedAt).toLocaleDateString()}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
-                    {reward.questTitle}
-                  </h4>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                    Approved on{' '}
-                    {new Date(reward.submittedAt).toLocaleDateString()}
+                <div className="text-right" aria-hidden="true">
+                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-50">
+                    +{rewardAmount} Tokens
                   </p>
                 </div>
-              </div>
-              <div className="text-right" aria-hidden="true">
-                <p className="text-sm font-bold text-zinc-900 dark:text-zinc-50">
-                  +{reward.reward} Tokens
-                </p>
-              </div>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

@@ -46,7 +46,9 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({
   const showToast = useCallback(
     (message: string, type: NotificationType = 'info') => {
       // Deduplicate toasts with the same message and type
-      if (toastsRef.current.some((t) => t.message === message && t.type === type)) {
+      if (
+        toastsRef.current.some((t) => t.message === message && t.type === type)
+      ) {
         return;
       }
 

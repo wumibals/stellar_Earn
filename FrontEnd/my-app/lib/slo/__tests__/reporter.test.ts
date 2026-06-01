@@ -28,9 +28,9 @@ describe('SLOReporter', () => {
       sloTracker.trackError('TypeError', 10);
       sloTracker.trackPerformance('LCP', 1500);
       sloTracker.trackTestResult('test1', true, 0);
-      
+
       const report = sloReporter.generateReport();
-      
+
       expect(report).toHaveProperty('errorRate');
       expect(report).toHaveProperty('p95LoadTime');
       expect(report).toHaveProperty('testFlakeRate');
@@ -42,9 +42,9 @@ describe('SLOReporter', () => {
       sloTracker.trackError('TypeError', 1);
       sloTracker.trackPerformance('LCP', 1000);
       sloTracker.trackTestResult('test1', true, 0);
-      
+
       const report = sloReporter.generateReport();
-      
+
       expect(report.overallStatus).toBe('healthy');
     });
 
@@ -52,9 +52,9 @@ describe('SLOReporter', () => {
       sloTracker.trackError('TypeError', 3); // Warning level error rate
       sloTracker.trackPerformance('LCP', 1000);
       sloTracker.trackTestResult('test1', true, 0);
-      
+
       const report = sloReporter.generateReport();
-      
+
       expect(report.overallStatus).toBe('warning');
     });
 
@@ -62,9 +62,9 @@ describe('SLOReporter', () => {
       sloTracker.trackError('TypeError', 200); // Very high error rate
       sloTracker.trackPerformance('LCP', 1000);
       sloTracker.trackTestResult('test1', true, 0);
-      
+
       const report = sloReporter.generateReport();
-      
+
       expect(report.overallStatus).toBe('critical');
     });
   });
@@ -74,10 +74,10 @@ describe('SLOReporter', () => {
       sloTracker.trackError('TypeError', 10);
       sloTracker.trackPerformance('LCP', 1500);
       sloTracker.trackTestResult('test1', true, 0);
-      
+
       const report = sloReporter.generateReport();
       const formatted = sloReporter.formatReportForDisplay(report);
-      
+
       expect(formatted).toContain('SLO Report');
       expect(formatted).toContain('Error Rate');
       expect(formatted).toContain('p95 Load Time');
@@ -90,10 +90,10 @@ describe('SLOReporter', () => {
       sloTracker.trackError('TypeError', 1);
       sloTracker.trackPerformance('LCP', 1000);
       sloTracker.trackTestResult('test1', true, 0);
-      
+
       const report = sloReporter.generateReport();
       const alerts = sloReporter.checkAlerts(report);
-      
+
       expect(alerts).toHaveLength(0);
     });
 
@@ -101,24 +101,24 @@ describe('SLOReporter', () => {
       sloTracker.trackError('TypeError', 3); // Warning level
       sloTracker.trackPerformance('LCP', 1000);
       sloTracker.trackTestResult('test1', true, 0);
-      
+
       const report = sloReporter.generateReport();
       const alerts = sloReporter.checkAlerts(report);
-      
+
       expect(alerts.length).toBeGreaterThan(0);
-      expect(alerts.some(alert => alert.includes('WARNING'))).toBe(true);
+      expect(alerts.some((alert) => alert.includes('WARNING'))).toBe(true);
     });
 
     it('should return critical alerts when metrics are at critical level', () => {
       sloTracker.trackError('TypeError', 200);
       sloTracker.trackPerformance('LCP', 1000);
       sloTracker.trackTestResult('test1', true, 0);
-      
+
       const report = sloReporter.generateReport();
       const alerts = sloReporter.checkAlerts(report);
-      
+
       expect(alerts.length).toBeGreaterThan(0);
-      expect(alerts.some(alert => alert.includes('CRITICAL'))).toBe(true);
+      expect(alerts.some((alert) => alert.includes('CRITICAL'))).toBe(true);
     });
   });
 });

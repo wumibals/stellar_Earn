@@ -188,7 +188,10 @@ describe('useAPIBootstrap', () => {
 
   it('should respect timeout option', async () => {
     const mockFetch = vi.fn(
-      () => new Promise((resolve) => setTimeout(() => resolve({ data: 'test' }), 1000))
+      () =>
+        new Promise((resolve) =>
+          setTimeout(() => resolve({ data: 'test' }), 1000)
+        )
     );
 
     const { result } = renderHook(() =>
@@ -203,7 +206,7 @@ describe('useAPIBootstrap', () => {
     );
 
     expect(result.current.error).toBeTruthy();
-    expect(result.current.error?.message).toMatch(/timeout/i);
+    expect(result.current.error?.message).toContain('timed out');
   });
 
   it('should provide isRecoverable flag', async () => {
@@ -252,6 +255,11 @@ describe('useAPIBootstrap', () => {
       })
     );
 
+    // Wait for initial load to finish
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
     // Trigger error on next call
     act(() => {
       result.current.retry();
@@ -290,7 +298,10 @@ describe('useAPIBootstrap', () => {
 
   it('should cleanup on unmount', async () => {
     const mockFetch = vi.fn(
-      () => new Promise((resolve) => setTimeout(() => resolve({ data: 'test' }), 1000))
+      () =>
+        new Promise((resolve) =>
+          setTimeout(() => resolve({ data: 'test' }), 1000)
+        )
     );
 
     const { unmount } = renderHook(() =>

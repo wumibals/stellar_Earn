@@ -96,6 +96,7 @@ npm run test:coverage -- lib/slo
 ### Dashboard
 
 The SLO dashboard provides:
+
 - Real-time metric display
 - Status indicators (healthy/warning/critical)
 - Trend analysis
@@ -127,19 +128,19 @@ Edit `lib/slo/config.ts`:
 ```typescript
 export const DEFAULT_SLO_THRESHOLDS: SLOThresholds = {
   errorRate: {
-    target: 0.01,    // 1%
-    warning: 0.02,   // 2%
-    critical: 0.05,  // 5%
+    target: 0.01, // 1%
+    warning: 0.02, // 2%
+    critical: 0.05, // 5%
   },
   p95LoadTime: {
-    target: 2000,   // 2 seconds
-    warning: 3000,   // 3 seconds
-    critical: 5000,  // 5 seconds
+    target: 2000, // 2 seconds
+    warning: 3000, // 3 seconds
+    critical: 5000, // 5 seconds
   },
   testFlakeRate: {
-    target: 0.02,   // 2%
-    warning: 0.05,   // 5%
-    critical: 0.10,  // 10%
+    target: 0.02, // 2%
+    warning: 0.05, // 5%
+    critical: 0.1, // 10%
   },
 };
 ```
@@ -151,7 +152,7 @@ export const SLO_CONFIG = {
   enabled: {
     production: true,
     staging: true,
-    development: false,  // Disabled in development
+    development: false, // Disabled in development
   },
   // ... other config
 };
@@ -162,6 +163,7 @@ export const SLO_CONFIG = {
 ### Issue: No SLO data appearing
 
 **Solution**:
+
 1. Check that `NEXT_PUBLIC_SLO_ENABLED` is set to `true`
 2. Verify Sentry DSN is configured
 3. Ensure PerformanceMonitor is in the layout
@@ -170,6 +172,7 @@ export const SLO_CONFIG = {
 ### Issue: High error rate
 
 **Solution**:
+
 1. Check Sentry dashboard for error details
 2. Review recent code changes
 3. Check for third-party service outages
@@ -177,6 +180,7 @@ export const SLO_CONFIG = {
 ### Issue: High p95 load time
 
 **Solution**:
+
 1. Analyze Web Vitals data
 2. Check bundle size
 3. Optimize images and assets
@@ -185,6 +189,7 @@ export const SLO_CONFIG = {
 ### Issue: High test flake rate
 
 **Solution**:
+
 1. Review test logs for patterns
 2. Check for timing issues
 3. Ensure proper test isolation
@@ -202,6 +207,7 @@ export const SLO_CONFIG = {
 ## Support
 
 For issues or questions about the SLO system:
+
 - Check the main documentation: `docs/SLO_DOCUMENTATION.md`
 - Review test files in `lib/slo/__tests__/`
 - Open an issue in the repository

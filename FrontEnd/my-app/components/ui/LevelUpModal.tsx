@@ -179,13 +179,14 @@ export function LevelUpModal({ isOpen, newLevel, onClose }: LevelUpModalProps) {
 
               {/* Level Number */}
               <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mb-2">
-                You've reached Level {newLevel}!
+                You&apos;ve reached Level {newLevel}!
               </p>
 
               {/* Benefits */}
               <div className="mt-6 pt-6 border-t border-zinc-200 dark:border-zinc-800">
                 <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Keep completing quests to unlock more rewards and achievements.
+                  Keep completing quests to unlock more rewards and
+                  achievements.
                 </p>
               </div>
             </div>

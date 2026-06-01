@@ -62,13 +62,19 @@ export class APIBootstrapErrorBoundary extends React.Component<
   componentDidMount() {
     window.addEventListener('offline', this.handleOffline);
     window.addEventListener('online', this.handleOnline);
-    window.addEventListener('network-unreachable', this.handleNetworkError as EventListener);
+    window.addEventListener(
+      'network-unreachable',
+      this.handleNetworkError as EventListener
+    );
   }
 
   componentWillUnmount() {
     window.removeEventListener('offline', this.handleOffline);
     window.removeEventListener('online', this.handleOnline);
-    window.removeEventListener('network-unreachable', this.handleNetworkError as EventListener);
+    window.removeEventListener(
+      'network-unreachable',
+      this.handleNetworkError as EventListener
+    );
     if (this.resetTimer) {
       clearTimeout(this.resetTimer);
     }
@@ -93,7 +99,9 @@ export class APIBootstrapErrorBoundary extends React.Component<
     });
   };
 
-  static getDerivedStateFromError(error: Error | AppError): Partial<APIBootstrapErrorState> {
+  static getDerivedStateFromError(
+    error: Error | AppError
+  ): Partial<APIBootstrapErrorState> {
     const isNetworkError =
       error.message.toLowerCase().includes('offline') ||
       error.message.toLowerCase().includes('network') ||
@@ -106,7 +114,9 @@ export class APIBootstrapErrorBoundary extends React.Component<
       hasError: true,
       error,
       errorInfo: null,
-      isOffline: isNetworkError || (typeof navigator !== 'undefined' && !navigator.onLine),
+      isOffline:
+        isNetworkError ||
+        (typeof navigator !== 'undefined' && !navigator.onLine),
     };
   }
 
@@ -116,7 +126,8 @@ export class APIBootstrapErrorBoundary extends React.Component<
         component: this.props.componentName,
         retryCount: this.state.retryCount,
         timestamp: new Date().toISOString(),
-        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+        userAgent:
+          typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
       };
 
       logError(error, `API Bootstrap Error - ${this.props.componentName}`);
@@ -157,28 +168,37 @@ export class APIBootstrapErrorBoundary extends React.Component<
 
   render() {
     if (this.state.hasError || this.state.isOffline) {
-      const { fallback: FallbackComponent, componentName, showDetails = false } = this.props;
+      const {
+        fallback: FallbackComponent,
+        componentName,
+        showDetails = false,
+      } = this.props;
       const { error, isOffline } = this.state;
 
       if (isOffline) {
         return (
           <div className="flex flex-col items-center justify-center min-h-[250px] p-6 text-center bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700/50">
             <div className="p-4 mb-4 bg-slate-200 dark:bg-slate-800 rounded-full">
-              <svg 
-                className="w-8 h-8 text-slate-500 dark:text-slate-400" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor" 
+              <svg
+                className="w-8 h-8 text-slate-500 dark:text-slate-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
                 strokeWidth={2}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.168a2 2 0 11-2.829-2.83m0 0l-7.071-7.071" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.168a2 2 0 11-2.829-2.83m0 0l-7.071-7.071"
+                />
               </svg>
             </div>
             <h3 className="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">
               You are offline
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-300 mb-6 max-w-sm">
-              We couldn't connect to the server. You can still view cached content, but {componentName} needs an active connection.
+              We couldn&apos;t connect to the server. You can still view cached
+              content, but {componentName} needs an active connection.
             </p>
             <button
               onClick={() => {
@@ -187,8 +207,18 @@ export class APIBootstrapErrorBoundary extends React.Component<
               }}
               className="inline-flex items-center gap-2 rounded-lg bg-slate-900 dark:bg-slate-100 px-4 py-2 text-sm font-medium text-white dark:text-slate-900 transition-colors hover:bg-slate-800 dark:hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
               </svg>
               Try Again
             </button>
@@ -224,22 +254,24 @@ export class APIBootstrapErrorBoundary extends React.Component<
                 Failed to Load {componentName}
               </h3>
               <p className="mt-1 text-sm text-red-300">
-                We encountered an issue while loading this section. Please try again or check
-                back later.
+                We encountered an issue while loading this section. Please try
+                again or check back later.
               </p>
 
               {/* Error Details (Development only) */}
-              {showDetails && process.env.NODE_ENV === 'development' && error && (
-                <details className="mt-4 text-xs text-red-400">
-                  <summary className="cursor-pointer font-medium hover:text-red-300">
-                    Error Details
-                  </summary>
-                  <pre className="mt-2 overflow-auto rounded bg-red-950/50 p-3">
-                    {error.message}
-                    {error.stack && `\n\n${error.stack}`}
-                  </pre>
-                </details>
-              )}
+              {showDetails &&
+                process.env.NODE_ENV === 'development' &&
+                error && (
+                  <details className="mt-4 text-xs text-red-400">
+                    <summary className="cursor-pointer font-medium hover:text-red-300">
+                      Error Details
+                    </summary>
+                    <pre className="mt-2 overflow-auto rounded bg-red-950/50 p-3">
+                      {error.message}
+                      {error.stack && `\n\n${error.stack}`}
+                    </pre>
+                  </details>
+                )}
 
               {/* Action Buttons */}
               <div className="mt-4 flex flex-wrap gap-3">
@@ -266,7 +298,7 @@ export class APIBootstrapErrorBoundary extends React.Component<
                 </button>
 
                 <button
-                  onClick={() => window.location.href = '/'}
+                  onClick={() => (window.location.href = '/')}
                   className="inline-flex items-center gap-2 rounded-lg border border-red-800 bg-red-900/20 px-4 py-2 text-sm font-medium text-red-200 transition-colors hover:bg-red-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-red-900/20"
                   aria-label="Go to homepage"
                 >

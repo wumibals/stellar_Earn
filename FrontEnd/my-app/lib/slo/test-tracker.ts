@@ -52,9 +52,7 @@ export class TestFlakeTracker {
 
     if (results.length === 0) return 0;
 
-    const flakyCount = results.filter(
-      (r) => !r.passed || r.retries > 0
-    ).length;
+    const flakyCount = results.filter((r) => !r.passed || r.retries > 0).length;
     return flakyCount / results.length;
   }
 

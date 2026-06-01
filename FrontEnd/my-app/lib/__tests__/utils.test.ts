@@ -1,4 +1,5 @@
 // Unit tests for utility functions
+import { describe, test, expect } from 'vitest';
 
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-US', {

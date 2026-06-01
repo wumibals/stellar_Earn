@@ -12,6 +12,7 @@ import type { Quest } from '@/lib/types/quest';
 import { useAnalytics } from '@/lib/hooks/useAnalytics';
 import { useOnlineStatus } from '@/lib/hooks/useOnlineStatus';
 import { ANALYTICS_EVENTS } from '@/lib/analytics/events';
+import { Skeleton } from '@/components/ui/Skeleton';
 
 export default function QuestDetailPage() {
   const params = useParams();
@@ -33,9 +34,7 @@ export default function QuestDetailPage() {
       setQuest(data as unknown as Quest);
       trackEvent(ANALYTICS_EVENTS.QUEST_VIEW, { questId });
     } catch (err) {
-      setError(
-        err instanceof Error ? err : new Error('Failed to fetch quest')
-      );
+      setError(err instanceof Error ? err : new Error('Failed to fetch quest'));
     } finally {
       setIsLoading(false);
     }
@@ -65,29 +64,29 @@ export default function QuestDetailPage() {
         <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           {/* Back Button Skeleton */}
           <div className="mb-6">
-            <div className="h-6 w-32 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
+            <Skeleton.Text className="h-6 w-32" />
           </div>
 
           {/* Header Skeleton */}
           <div className="mb-6 rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
             <div className="mb-4 flex gap-2">
-              <div className="h-6 w-20 animate-pulse rounded-full bg-zinc-200 dark:bg-zinc-800" />
-              <div className="h-6 w-24 animate-pulse rounded-full bg-zinc-200 dark:bg-zinc-800" />
-              <div className="h-6 w-16 animate-pulse rounded-full bg-zinc-200 dark:bg-zinc-800" />
+              <Skeleton.Text className="h-6 w-20 rounded-full" />
+              <Skeleton.Text className="h-6 w-24 rounded-full" />
+              <Skeleton.Text className="h-6 w-16 rounded-full" />
             </div>
-            <div className="mb-4 h-10 w-3/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
-            <div className="h-5 w-48 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
+            <Skeleton.Text className="mb-4 h-10 w-3/4" />
+            <Skeleton.Text className="h-5 w-48" />
           </div>
 
           {/* Content Grid Skeleton */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className="space-y-6 lg:col-span-2">
-              <div className="h-64 animate-pulse rounded-lg bg-zinc-200 dark:bg-zinc-800" />
-              <div className="h-96 animate-pulse rounded-lg bg-zinc-200 dark:bg-zinc-800" />
+              <Skeleton.Card rows={5} />
+              <Skeleton.Card rows={8} />
             </div>
             <div className="space-y-6">
-              <div className="h-64 animate-pulse rounded-lg bg-zinc-200 dark:bg-zinc-800" />
-              <div className="h-48 animate-pulse rounded-lg bg-zinc-200 dark:bg-zinc-800" />
+              <Skeleton.Card rows={4} />
+              <Skeleton.Card rows={3} />
             </div>
           </div>
         </div>
