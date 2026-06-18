@@ -1,3 +1,6 @@
+import { StellarEarn } from '@contracts/earn-quest/bindings/index';
+import { env } from '@/lib/config/env';
+
 export interface ClaimResult {
   success: boolean;
   transactionHash?: string;
@@ -6,32 +9,59 @@ export interface ClaimResult {
   timestamp: string;
 }
 
+export async function createStellarEarnClient(): Promise<StellarEarn> {
+  const rpcUrl = env.sorobanRpcUrl();
+  const contractId = env.contractId();
+
+  if (!rpcUrl) {
+    throw new Error('SOROBAN_RPC_URL is not configured');
+  }
+  if (!contractId) {
+    throw new Error('CONTRACT_ID is not configured');
+  }
+
+  const client = new StellarEarn({ rpcUrl, contractId });
+  await client.connect();
+  return client;
+}
+
 export async function claimReward(
   rewardId: string,
-  amount: number
+  amount: number,
+  walletAddress: string,
+  signTransaction: (xdr: string) => Promise<string>,
+  rpcUrl?: string,
+  contractId?: string,
 ): Promise<ClaimResult> {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  try {
+    const client = new StellarEarn({
+      rpcUrl: rpcUrl ?? env.sorobanRpcUrl(),
+      contractId: contractId ?? env.contractId(),
+    });
+    await client.connect();
 
-  const isSuccessful = Math.random() > 0.05;
+    const tx = client.claim_reward({
+      quest_id: rewardId,
+      submitter: walletAddress,
+      amount: BigInt(amount),
+    });
 
-  if (!isSuccessful) {
+    const result = await tx.signAndSend({ signTransaction });
+
+    return {
+      success: true,
+      transactionHash: result.sendTransactionResponse?.hash,
+      amount,
+      timestamp: new Date().toISOString(),
+    };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : 'Claim transaction failed';
     return {
       success: false,
-      error: 'User rejected transaction or network error',
+      error: message,
       amount,
       timestamp: new Date().toISOString(),
     };
   }
-
-  // Generate a mock transaction hash
-  const transactionHash = Array.from({ length: 32 }, () =>
-    Math.floor(Math.random() * 16).toString(16)
-  ).join('');
-
-  return {
-    success: true,
-    transactionHash,
-    amount,
-    timestamp: new Date().toISOString(),
-  };
 }

@@ -10,7 +10,6 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "validate:path-aliases": "node scripts/validate-path-aliases.js",
-
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -22,6 +21,7 @@
   "dependencies": {
     "@creit.tech/stellar-wallets-kit": "^1.3.0",
     "@sentry/nextjs": "10.55.0",
+    "@stellar/stellar-sdk": "^12.3.0",
     "@tiptap/extension-placeholder": "^3.20.5",
     "@tiptap/react": "^3.20.5",
     "@tiptap/starter-kit": "^3.20.5",

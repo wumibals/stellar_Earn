@@ -16,6 +16,7 @@ interface WalletContextType {
   supportedWallets: { id: string; name: string; icon: string }[];
   error: string | null;
   signMessage: (message: string) => Promise<string>;
+  signTransaction: (xdr: string, opts: { networkPassphrase: string; address: string }) => Promise<string>;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -109,6 +110,13 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     disconnectWallet();
   };
 
+  const getNetworkPassphrase = () => {
+    const network = process.env.NEXT_PUBLIC_STELLAR_NETWORK || 'testnet';
+    return network === 'mainnet'
+      ? 'Public Global Stellar Network ; September 2015'
+      : 'Test SDF Network ; September 2015';
+  };
+
   const signMessage = async (message: string) => {
     if (!kit) {
       throw new Error('Wallet kit not loaded');
@@ -125,6 +133,17 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
       console.error('Signing failed:', err);
       throw new Error(err?.message || 'Signing failed');
     }
+  };
+
+  const signTransaction = async (xdr: string, opts: { networkPassphrase: string; address: string }) => {
+    if (!kit) {
+      throw new Error('Wallet kit not loaded');
+    }
+    const { signedTxXdr } = await kit.signTransaction(xdr, {
+      networkPassphrase: opts.networkPassphrase,
+      address: opts.address,
+    });
+    return signedTxXdr;
   };
 
   return (
@@ -149,6 +168,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 
         error: walletError,
         signMessage,
+        signTransaction,
       }}
     >
       {children}

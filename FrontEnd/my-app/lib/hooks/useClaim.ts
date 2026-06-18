@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { claimReward, ClaimResult } from '../stellar/claim';
+import { useWallet } from '@/context/WalletContext';
 import { useToast } from '@/components/notifications/Toast';
 
 export type ClaimStatus = 'idle' | 'pending' | 'success' | 'error';
@@ -19,15 +20,28 @@ export function useClaim(): UseClaimReturn {
   const [result, setResult] = useState<ClaimResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { showToast } = useToast();
+  const { address, signTransaction } = useWallet();
+  const networkPassphrase = process.env.NEXT_PUBLIC_STELLAR_NETWORK === 'mainnet'
+    ? 'Public Global Stellar Network ; September 2015'
+    : 'Test SDF Network ; September 2015';
 
   const claim = useCallback(
     async (rewardId: string, amount: number) => {
+      if (!address) {
+        const msg = 'Wallet not connected';
+        setStatus('error');
+        setError(msg);
+        showToast(msg, 'error');
+        return null;
+      }
+
       setStatus('pending');
       setError(null);
       setResult(null);
 
       try {
-        const response = await claimReward(rewardId, amount);
+        const signTx = (xdr: string) => signTransaction(xdr, { networkPassphrase, address });
+        const response = await claimReward(rewardId, amount, address, signTx);
 
         if (response.success) {
           setStatus('success');
@@ -49,7 +63,7 @@ export function useClaim(): UseClaimReturn {
         return null;
       }
     },
-    [showToast]
+    [address, showToast, signTransaction, networkPassphrase]
   );
 
   const reset = useCallback(() => {

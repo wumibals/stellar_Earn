@@ -3,6 +3,7 @@ WASM := $(shell ls target/wasm32-unknown-unknown/release/*.wasm 2>/dev/null | he
 NETWORK ?= testnet
 
 .PHONY: help test test-verbose test-fast build fmt clippy deploy invoke-register \
+generate-bindings \
 license-check deny-check migration-dry-run migration-apply \
 snapshots snapshots-clean snapshots-verify snapshots-restore snapshots-backup \
 snapshots-stats snapshots-admin snapshots-quest snapshots-payout snapshots-security \
@@ -43,6 +44,9 @@ help:
 	@echo "  make local-env-test VERBOSE=1       - Show full CLI output for each step"
 	@echo ""
 
+	@echo "TypeScript Bindings:"
+	@echo "  make generate-bindings  - Generate TypeScript client from contract ABI"
+	@echo ""
 	@echo "Migration & Snapshots:"
 	@echo "  make migration-dry-run   - Preview schema migration for STATE=<path>"
 	@echo "  make migration-apply     - Write migrated schema to OUTPUT=<path>"
@@ -210,6 +214,23 @@ snapshots-batch:
 
 snapshots-bounds:
 	@./update-snapshots.sh --test test_bounds
+
+# ── TypeScript Bindings Generation ─────────────────────────────────────────────
+
+# Output directory for generated TypeScript bindings
+BINDINGS_DIR := bindings
+
+# Generate TypeScript client bindings from the deployed contract ABI
+generate-bindings: build
+	@echo "Generating TypeScript bindings for $(CRATE)..."
+	@mkdir -p $(BINDINGS_DIR)
+	soroban contract bindings typescript \
+		--contract-id $(CONTRACT_ID) \
+		--rpc-url $(SOROBAN_RPC_URL) \
+		--network $(NETWORK) \
+		--output-dir $(BINDINGS_DIR) \
+		--wasm $(WASM)
+	@echo "Bindings written to $(BINDINGS_DIR)/"
 
 # Clean build artifacts
 clean:
