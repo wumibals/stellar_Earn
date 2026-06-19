@@ -47,7 +47,7 @@ export class PayoutsController {
 
   @Post('claim')
   @HttpCode(HttpStatus.OK)
-  @RateLimit({ limit: 10, ttlSeconds: 60 })
+  @RateLimit({ name: 'payout' })
   @ApiOperation({ summary: 'Claim a pending payout' })
   @ApiResponse({
     status: 200,

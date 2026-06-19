@@ -153,14 +153,34 @@ export class AppThrottlerGuard extends ThrottlerGuard {
     // Get per-user limit configuration
     const perUserLimitConfig = this.perUserRateLimitConfig.getLimit(limitKey);
 
-    // Apply per-user limits to metadata
+    // Apply endpoint-specific limits when a named @RateLimit config exists;
+    // otherwise keep the existing role/user-based throttling behavior.
     const updatedMetadata = baseMetadata.map((metadata) => ({
       ...metadata,
-      limit: perUserLimitConfig.limit,
-      ttl: perUserLimitConfig.ttl || metadata.ttl,
+      ...this.resolveMetadataLimit(metadata, perUserLimitConfig),
     }));
 
     return updatedMetadata;
+  }
+
+  private resolveMetadataLimit(
+    metadata: { name: string; limit: number; ttl: number },
+    perUserLimitConfig: { limit: number; ttl: number },
+  ): { limit: number; ttl: number } {
+    if (metadata.name && metadata.name !== 'default') {
+      const endpointLimitConfig =
+        this.perUserRateLimitConfig.getLimit(metadata.name);
+
+      return {
+        limit: endpointLimitConfig.limit,
+        ttl: endpointLimitConfig.ttl || metadata.ttl,
+      };
+    }
+
+    return {
+      limit: perUserLimitConfig.limit,
+      ttl: perUserLimitConfig.ttl || metadata.ttl,
+    };
   }
 
   /**

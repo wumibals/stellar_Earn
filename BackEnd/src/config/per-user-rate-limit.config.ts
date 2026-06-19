@@ -56,6 +56,30 @@ export class PerUserRateLimitConfigService {
       configService.get<string>('RATE_LIMIT_AUTH_USER_TTL'),
       defaultUserTTLSeconds,
     );
+    const questCreationLimit = parseNumber(
+      configService.get<string>('RATE_LIMIT_QUEST_CREATION_LIMIT'),
+      20,
+    );
+    const questCreationTTLSeconds = parseNumber(
+      configService.get<string>('RATE_LIMIT_QUEST_CREATION_TTL'),
+      defaultUserTTLSeconds,
+    );
+    const submissionLimit = parseNumber(
+      configService.get<string>('RATE_LIMIT_SUBMISSION_LIMIT'),
+      30,
+    );
+    const submissionTTLSeconds = parseNumber(
+      configService.get<string>('RATE_LIMIT_SUBMISSION_TTL'),
+      defaultUserTTLSeconds,
+    );
+    const payoutLimit = parseNumber(
+      configService.get<string>('RATE_LIMIT_PAYOUT_LIMIT'),
+      10,
+    );
+    const payoutTTLSeconds = parseNumber(
+      configService.get<string>('RATE_LIMIT_PAYOUT_TTL'),
+      defaultUserTTLSeconds,
+    );
 
     this.config = {
       // Anonymous users (IP-based tracking)
@@ -94,6 +118,20 @@ export class PerUserRateLimitConfigService {
       auth_authenticated: {
         limit: authUserLimit,
         ttl: secondsToMs(authUserTTLSeconds),
+      },
+
+      // Endpoint-specific limits
+      quest_creation: {
+        limit: questCreationLimit,
+        ttl: secondsToMs(questCreationTTLSeconds),
+      },
+      submission: {
+        limit: submissionLimit,
+        ttl: secondsToMs(submissionTTLSeconds),
+      },
+      payout: {
+        limit: payoutLimit,
+        ttl: secondsToMs(payoutTTLSeconds),
       },
     };
   }
