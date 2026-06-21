@@ -36,7 +36,7 @@ export class UserListener {
 
   @OnEvent('user.updated', { async: true })
   @Retry(3, 1000)
-  async handleUserUpdatedEvent(event: UserUpdatedEvent) {
+  handleUserUpdatedEvent(event: UserUpdatedEvent) {
     this.logger.log(
       `Handling user.updated for user: ${event.userId}. Updated fields: ${event.updatedFields.join(', ')}`,
     );

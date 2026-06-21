@@ -26,7 +26,7 @@ export function initOpenTelemetry(configService: ConfigService): void {
 /**
  * Gracefully shutdown OpenTelemetry SDK
  */
-export async function shutdownOpenTelemetry(): Promise<void> {
+export function shutdownOpenTelemetry(): Promise<void> {
   if (sdk) {
     console.log('[OpenTelemetry] Shutting down...');
     try {
@@ -36,4 +36,5 @@ export async function shutdownOpenTelemetry(): Promise<void> {
       console.error('[OpenTelemetry] Error during shutdown:', error);
     }
   }
+  return Promise.resolve();
 }

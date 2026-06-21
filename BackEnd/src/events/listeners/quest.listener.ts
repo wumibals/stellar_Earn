@@ -34,7 +34,7 @@ export class QuestListener {
 
   @OnEvent('quest.completed', { async: true })
   @Retry(3, 1000)
-  async handleQuestCompletedEvent(event: QuestCompletedEvent) {
+  handleQuestCompletedEvent(event: QuestCompletedEvent) {
     this.logger.log(
       `Handling quest.completed for quest: ${event.questId}, user: ${event.userId}`,
     );
@@ -52,7 +52,7 @@ export class QuestListener {
 
   @OnEvent('quest.deleted', { async: true })
   @Retry(3, 1000)
-  async handleQuestDeletedEvent(event: QuestDeletedEvent) {
+  handleQuestDeletedEvent(event: QuestDeletedEvent) {
     this.logger.log(`Handling quest.deleted for quest: ${event.questId}`);
     try {
       // Process deletion

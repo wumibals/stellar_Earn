@@ -11,10 +11,6 @@ import {
   AnalyticsReportService,
   ReportGenerationOptions,
 } from '../../analytics/services/report.service';
-import {
-  ReportType,
-  ReportFormat,
-} from '../../analytics/entities/analytics-report.entity';
 import { SnapshotType } from '../../analytics/entities/analytics-snapshot.entity';
 
 /**

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, MoreThan } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Server, Socket } from 'socket.io';
 import { WsSubscription, WsChannel } from './entities/ws-subscription.entity';
 import { WsMessage } from './entities/ws-message.entity';

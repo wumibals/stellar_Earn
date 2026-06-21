@@ -11,7 +11,7 @@ export class SubmissionListener {
 
   @OnEvent('submission.rejected', { async: true })
   @Retry(3, 1000)
-  async handleSubmissionRejectedEvent(event: SubmissionRejectedEvent) {
+  handleSubmissionRejectedEvent(event: SubmissionRejectedEvent) {
     this.logger.log(
       `Handling submission.rejected for submission: ${event.submissionId}`,
     );

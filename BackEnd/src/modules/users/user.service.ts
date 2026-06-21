@@ -73,11 +73,11 @@ export class UserService {
     return user;
   }
 
-  async findById(id: string): Promise<User | null> {
+  async findById(_id: string): Promise<User | null> {
     return this.findByAddress('dummy');
   }
 
-  async findByGoogleId(googleId: string): Promise<User | null> {
+  async findByGoogleId(_googleId: string): Promise<User | null> {
     return this.findByAddress('dummy');
   }
 

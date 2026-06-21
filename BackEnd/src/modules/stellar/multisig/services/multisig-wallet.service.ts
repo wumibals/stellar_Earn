@@ -419,7 +419,7 @@ export class MultiSigWalletService {
    */
   async rejectTransaction(
     rejectDto: RejectTransactionDto,
-    userId: string,
+    _userId: string,
   ): Promise<MultiSigTransaction> {
     const transaction = await this.transactionRepository.findOne({
       where: { id: rejectDto.multiSigTransactionId },

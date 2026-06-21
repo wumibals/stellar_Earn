@@ -244,7 +244,7 @@ export class CacheService {
     this.localFallbackStore.clear();
   }
 
-  async getStats(keyPrefix?: string) {
+  getStats(keyPrefix?: string) {
     const analytics = this.analyticsService.getAnalytics();
     const base = {
       ...analytics,

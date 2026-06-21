@@ -1,4 +1,4 @@
-import { SelectQueryBuilder, DeleteResult } from 'typeorm';
+import { SelectQueryBuilder } from 'typeorm';
 
 /**
  * Soft delete utility functions for TypeORM entities

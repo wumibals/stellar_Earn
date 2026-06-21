@@ -80,7 +80,7 @@ export class EmailService implements OnModuleInit {
       this.sgMail = sgMailModule.default || sgMailModule;
       this.sgMail.setApiKey(this.apiKey);
       this.logger.log('SendGrid email service initialized');
-    } catch (error) {
+    } catch (_error) {
       this.logger.warn(
         'SendGrid SDK not available. Install @sendgrid/mail to enable email sending.',
       );

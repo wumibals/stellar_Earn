@@ -16,7 +16,7 @@ import { RefreshToken } from './entities/refresh-token.entity';
     }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => {
+      useFactory: (configService: ConfigService) => {
         const privateKey = configService.get<string>('JWT_PRIVATE_KEY');
         if (!privateKey) {
           throw new Error(

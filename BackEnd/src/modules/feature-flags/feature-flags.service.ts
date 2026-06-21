@@ -404,7 +404,6 @@ export class FeatureFlagsService {
    * Invalidate cache for a specific flag
    */
   private async invalidateFlagCache(flagKey: string): Promise<void> {
-    const keys = [`ff:${flagKey}`, `ff:${flagKey}:*`];
     // Note: In a real implementation, you might need to use pattern-based cache invalidation
     // This is a simplified version
     await this.cacheManager.del(`ff:${flagKey}`);

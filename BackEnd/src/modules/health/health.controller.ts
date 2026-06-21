@@ -181,7 +181,7 @@ export class HealthController {
       },
     },
   })
-  async metrics(@Res() res: Response): Promise<void> {
+  metrics(@Res() res: Response): void {
     res.setHeader('Content-Type', 'text/plain; version=0.0.4');
     res.send(this.metricsService.getPrometheusOutput());
   }

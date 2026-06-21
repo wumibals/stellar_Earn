@@ -68,7 +68,6 @@ export class WebhooksController {
     @Headers('x-github-event') eventType: string,
     @Headers('x-github-delivery') deliveryId: string,
     @Headers('x-hub-signature-256') signature: string,
-    @Headers() headers: any,
   ): Promise<WebhookResponse> {
     if (!eventType)
       throw new BadRequestException('Missing X-GitHub-Event header');
@@ -175,7 +174,6 @@ export class WebhooksController {
     @Headers('x-event-type') eventType: string,
     @Headers('x-webhook-id') webhookId: string,
     @Headers('authorization') authHeader: string,
-    @Headers() headers: any,
   ): Promise<WebhookResponse> {
     if (!eventType)
       throw new BadRequestException('Missing X-Event-Type header');

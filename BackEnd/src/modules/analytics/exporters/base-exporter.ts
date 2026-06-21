@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  AnalyticsReport,
-  ReportFormat,
-} from '../entities/analytics-report.entity';
+import { ReportFormat } from '../entities/analytics-report.entity';
 
 export interface ExportOptions {
   format: ReportFormat;
@@ -45,10 +42,7 @@ export class BaseAnalyticsExporter {
   /**
    * Export data to JSON format
    */
-  private async exportToJson(
-    data: any,
-    options: ExportOptions,
-  ): Promise<ExportResult> {
+  private exportToJson(data: any, _options: ExportOptions): ExportResult {
     const jsonData = JSON.stringify(data, null, 2);
     const buffer = Buffer.from(jsonData, 'utf-8');
 
@@ -63,10 +57,7 @@ export class BaseAnalyticsExporter {
   /**
    * Export data to CSV format
    */
-  private async exportToCsv(
-    data: any,
-    options: ExportOptions,
-  ): Promise<ExportResult> {
+  private exportToCsv(data: any, options: ExportOptions): ExportResult {
     const delimiter = options.delimiter || ',';
     const includeHeaders = options.includeHeaders !== false;
 
@@ -132,10 +123,7 @@ export class BaseAnalyticsExporter {
   /**
    * Export data to PDF format (placeholder)
    */
-  private async exportToPdf(
-    data: any,
-    options: ExportOptions,
-  ): Promise<ExportResult> {
+  private exportToPdf(data: any, _options: ExportOptions): ExportResult {
     // In a real implementation, you'd use a library like puppeteer or pdfkit
     const htmlContent = this.generateHtmlReport(data);
     const buffer = Buffer.from(htmlContent, 'utf-8');

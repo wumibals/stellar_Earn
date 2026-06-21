@@ -5,16 +5,12 @@ import * as path from 'path';
 import { AppLoggerService } from '../common/logger/logger.service';
 
 import { RefreshToken } from '../modules/auth/entities/refresh-token.entity';
-import { TwoFactorAuth } from '../modules/auth/entities/two-factor.entity';
 
 import { Quest } from '../modules/quests/entities/quest.entity';
 import { Submission } from '../modules/submissions/entities/submission.entity';
 import { User } from '../modules/users/entities/user.entity';
 import { Notification } from '../modules/notifications/entities/notification.entity';
 import { Payout } from '../modules/payouts/entities/payout.entity';
-import { ModerationItem } from '../modules/moderation/entities/moderation-item.entity';
-import { ModerationAppeal } from '../modules/moderation/entities/moderation-appeal.entity';
-import { DataExport } from '../modules/users/entities/data-export.entity';
 import { FeatureFlag } from '../modules/feature-flags/entities/feature-flag.entity';
 import { FeatureFlagAuditLog } from '../modules/feature-flags/entities/feature-flag-audit.entity';
 import { QuotaConfig } from '../modules/quota/entities/quota-config.entity';

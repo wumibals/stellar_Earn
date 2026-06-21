@@ -227,7 +227,7 @@ export class PlatformAnalyticsAggregator extends BaseAnalyticsAggregator {
    * Calculate overall completion rate
    */
   private async calculateCompletionRate(
-    options: AggregationOptions,
+    _options: AggregationOptions,
   ): Promise<number> {
     const [totalQuests, completedQuests] = await Promise.all([
       this.questRepository.count(),

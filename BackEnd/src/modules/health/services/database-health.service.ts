@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { HealthCheckResult, ServiceStatus } from '../types/health.types';
+import { HealthCheckResult } from '../types/health.types';
 
 const DATABASE_TIMEOUT_MS = 3000;
 const DATABASE_DEGRADED_THRESHOLD_MS = 500; // Mark as degraded if query takes > 500ms

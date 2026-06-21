@@ -5,11 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOptionsWhere, ILike } from 'typeorm';
-import {
-  PostmortemEntity,
-  IncidentSeverity,
-  PostmortemStatus,
-} from './postmortem.entity';
+import { PostmortemEntity, PostmortemStatus } from './postmortem.entity';
 import {
   CreatePostmortemDto,
   UpdatePostmortemDto,
@@ -474,7 +470,7 @@ export class PostmortemService {
     if (!json) return fallback;
     try {
       return JSON.parse(json) as T;
-    } catch (err) {
+    } catch (_err) {
       return fallback;
     }
   }

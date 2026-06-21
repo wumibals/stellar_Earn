@@ -1,6 +1,6 @@
-import { Injectable, LoggerService, Scope } from '@nestjs/common';
+import { Injectable, LoggerService } from '@nestjs/common';
 import * as winston from 'winston';
-import { createLoggerConfig, LoggerConfig } from '../../config/logger.config';
+import { createLoggerConfig } from '../../config/logger.config';
 import { AsyncLocalStorage } from 'async_hooks';
 import { randomUUID } from 'crypto';
 

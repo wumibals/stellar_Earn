@@ -16,7 +16,7 @@ import {
     NestCacheModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (config: ConfigService) => ({
+      useFactory: (config: ConfigService) => ({
         store: redisStore,
         host: config.get('cache.host'),
         port: config.get('cache.port'),

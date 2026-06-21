@@ -1,4 +1,4 @@
-import { SetMetadata, applyDecorators } from '@nestjs/common';
+import { SetMetadata } from '@nestjs/common';
 
 export const CACHE_KEY_METADATA = 'cache:key';
 export const CACHE_TTL_METADATA = 'cache:ttl';
@@ -41,7 +41,7 @@ export function Cacheable(options: CacheableOptions = {}): MethodDecorator {
   ) => {
     const originalMethod = descriptor.value;
 
-    descriptor.value = async function (...args: unknown[]) {
+    descriptor.value = function (...args: unknown[]) {
       const cacheService = this.cacheService;
       if (!cacheService) {
         // No cache service available; call through

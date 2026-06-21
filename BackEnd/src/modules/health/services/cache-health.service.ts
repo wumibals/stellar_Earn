@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import type { Cache } from 'cache-manager';
-import { HealthCheckResult, ServiceStatus } from '../types/health.types';
+import { HealthCheckResult } from '../types/health.types';
 
 const CACHE_TIMEOUT_MS = 3000;
 const CACHE_DEGRADED_THRESHOLD_MS = 200;
@@ -28,7 +28,7 @@ export class CacheHealthService implements OnModuleInit, OnModuleDestroy {
     if (this.redisClient) {
       try {
         await this.redisClient.quit();
-      } catch (e) {
+      } catch (_e) {
         // Ignore errors during shutdown
       }
     }
@@ -100,7 +100,7 @@ export class CacheHealthService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  private async getRedisClient(): Promise<any> {
+  private getRedisClient(): any {
     if (this.redisClient) {
       return this.redisClient;
     }
@@ -127,11 +127,7 @@ export class CacheHealthService implements OnModuleInit, OnModuleDestroy {
   }
 
   private async pingWithClient(client: any): Promise<string> {
-    const start = process.hrtime.bigint();
-    const result = await client.ping();
-    const end = process.hrtime.bigint();
-    // We don't use the result, but this ensures the ping actually happened
-    return result;
+    return client.ping();
   }
 
   private timeoutPromise(ms: number): Promise<null> {

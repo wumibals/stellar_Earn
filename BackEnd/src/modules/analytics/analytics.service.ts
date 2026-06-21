@@ -11,7 +11,7 @@ export class AnalyticsService {
     );
   }
 
-  public trackEvent(name: string, metadata: Record<string, any>): void {
+  public trackEvent(name: string, _metadata: Record<string, any>): void {
     this.logger.log(`Tracking event: ${name}`);
     // Logic to send data to third-party provider
   }

@@ -66,7 +66,7 @@ export function ArrayMaxSize(
 // Unique array elements
 @ValidatorConstraint({ async: false })
 export class ArrayUniqueConstraint implements ValidatorConstraintInterface {
-  validate(value: any, args: ValidationArguments) {
+  validate(value: any, _args: ValidationArguments) {
     if (!Array.isArray(value)) return false;
 
     // For primitive types, use Set

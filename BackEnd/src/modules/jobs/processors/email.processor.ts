@@ -17,7 +17,12 @@ export class EmailProcessor {
    * Process single email send job
    */
   async processSingle(job: Job<EmailSendPayload>): Promise<JobResult> {
-    const { messageId, recipientEmail, templateId, variables = {} } = job.data;
+    const {
+      messageId,
+      recipientEmail,
+      templateId,
+      variables: _variables = {},
+    } = job.data;
 
     try {
       await job.updateProgress(10);

@@ -59,7 +59,7 @@ export class DataExportService {
     });
   }
 
-  async markFailed(id: string, error?: string) {
+  async markFailed(id: string, _error?: string) {
     await this.dataExportRepo.update(id, { status: DataExportStatus.FAILED });
   }
 }

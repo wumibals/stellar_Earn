@@ -25,7 +25,7 @@ export class ExternalHealthService implements OnModuleInit {
 
   constructor(private readonly configService: ConfigService) {}
 
-  async onModuleInit() {
+  onModuleInit(): void {
     // Read directly from environment variables for independence from feature modules
     this.stellarRpcUrl =
       process.env.SOROBAN_RPC_URL || 'https://soroban-testnet.stellar.org';

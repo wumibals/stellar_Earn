@@ -9,7 +9,6 @@ import {
   ForbiddenException,
   NotFoundException,
   ConflictException,
-  InternalServerErrorException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AppLoggerService } from '../logger/logger.service';

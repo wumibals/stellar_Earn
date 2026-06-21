@@ -353,57 +353,63 @@ export class AnalyticsReportService {
   }
 
   // Placeholder methods for specialized report generation
-  private async generatePayoutAnalyticsReport(
-    query: AnalyticsQueryDto,
-    parameters: any,
+  private generatePayoutAnalyticsReport(
+    _query: AnalyticsQueryDto,
+    _parameters: any,
   ): Promise<any> {
     // TODO: Implement payout analytics report generation
-    return { message: 'Payout analytics report - placeholder implementation' };
+    return Promise.resolve({
+      message: 'Payout analytics report - placeholder implementation',
+    });
   }
 
-  private async generateRevenueTrackingReport(
-    query: AnalyticsQueryDto,
-    parameters: any,
+  private generateRevenueTrackingReport(
+    _query: AnalyticsQueryDto,
+    _parameters: any,
   ): Promise<any> {
     // TODO: Implement revenue tracking report generation
-    return { message: 'Revenue tracking report - placeholder implementation' };
+    return Promise.resolve({
+      message: 'Revenue tracking report - placeholder implementation',
+    });
   }
 
-  private async generateRetentionAnalysisReport(
-    query: AnalyticsQueryDto,
-    parameters: any,
+  private generateRetentionAnalysisReport(
+    _query: AnalyticsQueryDto,
+    _parameters: any,
   ): Promise<any> {
     // TODO: Implement retention analysis report generation
-    return {
+    return Promise.resolve({
       message: 'Retention analysis report - placeholder implementation',
-    };
+    });
   }
 
-  private async generateGeographicDistributionReport(
-    query: AnalyticsQueryDto,
-    parameters: any,
+  private generateGeographicDistributionReport(
+    _query: AnalyticsQueryDto,
+    _parameters: any,
   ): Promise<any> {
     // TODO: Implement geographic distribution report generation
-    return {
+    return Promise.resolve({
       message: 'Geographic distribution report - placeholder implementation',
-    };
+    });
   }
 
-  private async generateTimeToCompletionReport(
-    query: AnalyticsQueryDto,
-    parameters: any,
+  private generateTimeToCompletionReport(
+    _query: AnalyticsQueryDto,
+    _parameters: any,
   ): Promise<any> {
     // TODO: Implement time to completion report generation
-    return {
+    return Promise.resolve({
       message: 'Time to completion report - placeholder implementation',
-    };
+    });
   }
 
-  private async generateCustomReport(
-    query: AnalyticsQueryDto,
-    parameters: any,
+  private generateCustomReport(
+    _query: AnalyticsQueryDto,
+    _parameters: any,
   ): Promise<any> {
     // TODO: Implement custom report generation
-    return { message: 'Custom report - placeholder implementation' };
+    return Promise.resolve({
+      message: 'Custom report - placeholder implementation',
+    });
   }
 }

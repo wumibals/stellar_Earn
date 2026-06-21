@@ -99,14 +99,15 @@ export class SecurityExceptionFilter implements ExceptionFilter {
     }
 
     // For security-related errors, provide generic messages
-    const securityErrorMessages = {
+    const securityErrorMessages: Record<number, string> = {
       [HttpStatus.FORBIDDEN]: 'Access forbidden',
       [HttpStatus.UNAUTHORIZED]: 'Unauthorized access',
       [HttpStatus.TOO_MANY_REQUESTS]: 'Too many requests',
-    } as const;
+    };
 
-    if (securityErrorMessages[status]) {
-      return securityErrorMessages[status];
+    const securityMessage = securityErrorMessages[status];
+    if (securityMessage) {
+      return securityMessage;
     }
 
     // For other errors, keep the original message but sanitize if needed

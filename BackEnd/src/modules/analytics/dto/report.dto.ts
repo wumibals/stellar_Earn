@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEnum,
   IsOptional,
@@ -18,7 +18,6 @@ import {
   ReportFormat,
   ReportStatus,
 } from '../entities/analytics-report.entity';
-import { SnapshotType } from '../entities/analytics-snapshot.entity';
 
 export class ReportGenerationDto {
   @ApiProperty({

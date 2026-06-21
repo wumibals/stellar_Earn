@@ -3,10 +3,7 @@ import { OnEvent } from '@nestjs/event-emitter';
 import { MultiSigPayoutService } from '../stellar/multisig/services/multisig-payout.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {
-  MultiSigTransaction,
-  MultiSigTransactionStatus,
-} from '../stellar/multisig/entities/multisig-transaction.entity';
+import { MultiSigTransaction } from '../stellar/multisig/entities/multisig-transaction.entity';
 
 @Injectable()
 export class MultiSigWebhookHandler {

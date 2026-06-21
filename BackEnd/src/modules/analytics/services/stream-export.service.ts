@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import { Transform } from 'stream';
 import { SelectQueryBuilder, ObjectLiteral } from 'typeorm';
 
 /**
@@ -119,13 +118,13 @@ export class StreamExportService {
    * @param filename Name of the file to download
    * @param contentType Content type for the response
    */
-  async streamWithTransform(
+  streamWithTransform(
     response: Response,
     data: any[],
     transformFn: (item: any) => string,
     filename: string,
     contentType: string,
-  ): Promise<void> {
+  ): void {
     response.setHeader('Content-Type', `${contentType}; charset=utf-8`);
     response.setHeader(
       'Content-Disposition',

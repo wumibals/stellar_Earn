@@ -18,7 +18,7 @@ export class JobsController {
   @Get('health')
   @ApiOperation({ summary: 'Job system health check' })
   @ApiResponse({ status: 200, description: 'Job system is healthy' })
-  async health() {
+  health() {
     return {
       status: 'ok',
       message: 'Job system is operational',
@@ -29,7 +29,7 @@ export class JobsController {
   @Get()
   @ApiOperation({ summary: 'Get job system info' })
   @ApiResponse({ status: 200, description: 'Job system information' })
-  async info() {
+  info() {
     return {
       status: 'operational',
       version: '1.0.0',

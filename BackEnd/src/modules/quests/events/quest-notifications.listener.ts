@@ -7,7 +7,7 @@ export class QuestNotificationsListener {
   private readonly logger = new Logger(QuestNotificationsListener.name);
 
   @OnEvent('quest.created', { async: true })
-  async handleQuestCreated(event: IQuestCreatedEvent) {
+  handleQuestCreated(event: IQuestCreatedEvent) {
     this.logger.log(
       `[QuestModule] Sending notification for quest: ${event.title}`,
     );

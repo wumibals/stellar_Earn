@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between } from 'typeorm';
-import { Payout, PayoutStatus } from '../entities/payout.entity';
+import { Payout } from '../entities/payout.entity';
 
 export interface FraudRiskAssessment {
   payoutId: string;

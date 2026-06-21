@@ -35,7 +35,7 @@ export class JobSchedulerService implements OnModuleInit, OnModuleDestroy {
     this.schedulerInterval = setInterval(() => this.syncScheduledJobs(), 60000);
   }
 
-  async onModuleDestroy() {
+  onModuleDestroy(): void {
     this.stopAllSchedules();
     if (this.schedulerInterval) {
       clearInterval(this.schedulerInterval);
@@ -319,7 +319,7 @@ export class JobSchedulerService implements OnModuleInit, OnModuleDestroy {
   /**
    * Start a scheduled job
    */
-  private async startSchedule(schedule: JobSchedule): Promise<void> {
+  private startSchedule(schedule: JobSchedule): void {
     try {
       if (this.cronJobs.has(schedule.id)) {
         return; // Already running
@@ -396,7 +396,7 @@ export class JobSchedulerService implements OnModuleInit, OnModuleDestroy {
    * Stop all scheduled jobs
    */
   private stopAllSchedules(): void {
-    for (const [id, cronJob] of this.cronJobs.entries()) {
+    for (const [_id, cronJob] of this.cronJobs.entries()) {
       cronJob.stop();
     }
     this.cronJobs.clear();

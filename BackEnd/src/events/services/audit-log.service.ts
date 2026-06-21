@@ -4,7 +4,7 @@ import { Injectable, Logger } from '@nestjs/common';
 export class AuditLogService {
   private readonly logger = new Logger(AuditLogService.name);
 
-  async logAudit(metadata: {
+  logAudit(metadata: {
     userId?: string;
     action: string;
     resource: string;
@@ -23,5 +23,6 @@ export class AuditLogService {
         userAgent: metadata.userAgent,
       },
     );
+    return Promise.resolve();
   }
 }

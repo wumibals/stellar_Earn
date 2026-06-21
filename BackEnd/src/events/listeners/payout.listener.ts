@@ -12,7 +12,7 @@ export class PayoutListener {
 
   @OnEvent('payout.processed', { async: true })
   @Retry(3, 1000)
-  async handlePayoutProcessedEvent(event: PayoutProcessedEvent) {
+  handlePayoutProcessedEvent(event: PayoutProcessedEvent) {
     this.logger.log(`Handling payout.processed for payout: ${event.payoutId}`);
     try {
       // Process payout
@@ -28,7 +28,7 @@ export class PayoutListener {
 
   @OnEvent('payout.failed', { async: true })
   @Retry(3, 1000)
-  async handlePayoutFailedEvent(event: PayoutFailedEvent) {
+  handlePayoutFailedEvent(event: PayoutFailedEvent) {
     this.logger.error(
       `Handling payout.failed for payout: ${event.payoutId}. Reason: ${event.reason}`,
     );

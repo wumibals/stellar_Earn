@@ -5,7 +5,6 @@ import {
   type SystemAnnouncementTemplateData,
 } from './notification.interface';
 import type { EmailTemplateEngine } from '#src/modules/email/templates/template.engine';
-import { EmailTemplate } from '#src/modules/email/dto/email.dto';
 
 const assertNonEmptyString = (value: unknown, field: string): void => {
   if (typeof value !== 'string' || value.trim().length === 0) {
