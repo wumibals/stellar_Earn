@@ -34,6 +34,22 @@ const categoryOptions = [
   'Community',
 ];
 
+function handleGroupKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+  if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+  const buttons = Array.from(
+    e.currentTarget.querySelectorAll('button')
+  ) as HTMLButtonElement[];
+  const idx = buttons.indexOf(document.activeElement as HTMLButtonElement);
+  if (idx === -1) return;
+  if (e.key === 'ArrowRight' && idx < buttons.length - 1) {
+    e.preventDefault();
+    buttons[idx + 1].focus();
+  } else if (e.key === 'ArrowLeft' && idx > 0) {
+    e.preventDefault();
+    buttons[idx - 1].focus();
+  }
+}
+
 export function FilterPanel({
   selectedStatus,
   selectedDifficulty,
@@ -73,6 +89,7 @@ export function FilterPanel({
           className="flex flex-wrap gap-2"
           role="group"
           aria-label="Filter by category"
+          onKeyDown={handleGroupKeyDown}
         >
           <button
             onClick={() => onCategoryChange(undefined)}
